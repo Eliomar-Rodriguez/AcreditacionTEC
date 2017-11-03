@@ -1,0 +1,152 @@
+<!--START CARD TABLE + BOTONES-->
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="card" style="height: 500px">
+        <div class="header">
+            <h4>Dimensiones</h4>
+        </div>
+        <div class="body">
+            <div id="tableDimensiones2" class="dataTables_wrapper form-inline dt-bootstrap">
+                <!--HEADER-->
+                <div class="row">
+                    <!--BOTONES ACCIONES-->
+                    <div class="col-sm-6">
+                        <div class="col-sm-6">
+                            <button class="btn btn-primary" style="width: 100%"
+                                    data-toggle="modal" data-target="#modalAddDimension">
+                                Crear Nuevo Registro
+                            </button>
+                        </div>
+                        <div class="col-sm-6">
+                            <button class="btn btn-warning" style="width: 100%">
+                                Guardar Cambios
+                            </button>
+                        </div>
+                    </div>
+                    <!--END BOTONES ACCIONES-->
+                    <!--INPUT SEARCH-->
+                    <div class="col-sm-6" >
+                        <div id="filterTableDimensiones" class="dataTables_filter">
+                            <input type="search" class="form-control input-sm" style="width: 100%;"
+                                   placeholder="Buscar" aria-controls="filterTableDimensiones">
+                        </div>
+                    </div>
+                    <!--END INPUT SEARCH-->
+                </div>
+                <!--END HEADER-->
+                <!--TABLA DIMENSIONES-->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-hover dataTable" id="dataTableDimensiones">
+                            <thead>
+                            <tr role="row">
+                                <th>#</th>
+                                <th>Dimensión</th>
+                                <th>Componente</th>
+                                <th>Acción</th>
+                            </tr>
+                            </thead>
+                            <tbody >
+                            <tr role="row" class="odd" ng-repeat="item in listaDimensiones ">
+                                <td>{{$index + 1}}</td>
+                                <td>{{item.nombreDimension}}</td>
+                                <td>{{item.nombreComponente}}</td>
+                                <td>
+                                    <a href="#" ng-click="">Editar</a> |
+                                    <a href="#" ng-click="">Eliminar</a>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--END TABLA DIMENSIONES-->
+                <!--FOOTER-->
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div id="dataTableDimensionInfo" class="dataTables_info" role="status" aria-live="polite">
+                            Mostrando 4 - 10
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div id="dataTableDimensionPagination" class="dataTables_paginate pagine_simple_numbers">
+                            <ul class="pagination">
+                                <li id="dataTableDimensionBtnBack" class="paginate_button previous">
+                                    <a aria-controls="dataTableDimensionBtnBack" data-dt-idx="0" tabindex="0">Anterior</a>
+                                </li>
+                                <li id="dataTableDimensionBtnNext" class="paginate_button next">
+                                    <a aria-controls="dataTableDimensionBtnNext" data-dt-idx="0" tabindex="0">Siguiente</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--END FOOTER-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--END CARD TABLE + BOTONES-->
+
+<!--START MODAL ADD DIMENSION-->
+<div class="container-fluid">
+    <div class="modal fade" id="modalAddDimension" tabindex="-1" role="dialog" aria-labelledby="modalAddDimension" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Agregar Dimensión</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row clearfix">
+                        <div class="col-md-12">
+                            <div class="container-fluid">
+                                <label for="txtDimensionName">Ingrese el nombre de la dimensión</label>
+                                <input type="text" class="form-control" ng-model="name"
+                                       id="txtDimensionName" placeholder="Nombre Dimensión" >
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <hr>
+                            <div class="col-md-5">
+                                <div class="container-fluid">
+                                    <label>Componentes <br> Disponibles</label>
+                                    <select class="form-control show-tick " ng-model="selected" multiple
+                                            data-live-search="true" ng-change="updateSelected(selected)" >
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2" style="margin-top: 10%">
+                                <div class="container-fluid">
+                                    <button class="btn btn-sm btn-primary" title="Agregar">
+                                        <i class="material-icons">add</i>
+                                    </button>
+                                    <div style="padding-top: 5%"></div>
+                                    <button class="btn btn-sm btn-danger" title="Eliminar">
+                                        <i class="material-icons">delete</i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-5" >
+                                <div class="container-fluid">
+                                    <label>Componentes <br> Seleccionados</label>
+                                    <select class="form-control  show-tick" ng-model="selected"
+                                            data-live-search="true"  multiple>>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="save()" id="btnSaveDimension">
+                        Agregar Dimensión
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--END MODAL ADD DIMENSION-->
+
+
