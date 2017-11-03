@@ -30,8 +30,9 @@ angular.module("acreditacion")
                 this.nombreDimension = nuevoNombre;
             }
         }
+        return dimension;
     })
-    .service("gestionDimensiones",function ($http) {
+    .service("gestionDimensiones",function ($http,claseDimension) {
         this.listaDimensiones = new Array();//ALMACENA LOS OBJETOS DE TIPO DIMENSIÓN
 
         this.getFromDB = function(){
@@ -43,10 +44,18 @@ angular.module("acreditacion")
                     $.notify("Error al procesar consulta!","error")
                 });
         };
-        this.llenarListaDimensiones = function (lista) {
-            for(var i = 0; i < lista.length; i++){
-                this.listaDimensiones.push(JSON.parse(lista[i]));
-            }
+        this.llenarListaDimensiones = function () { //parametrolista
+            //for(var i = 0; i < lista.length; i++){
+              //  this.listaDimensiones.push(JSON.parse(lista[i]));
+            //}
+
+            //DATOS DE PRUEBA
+            this.listaC = [];
+            this.listaDimensiones.push(
+                new claseDimension("dimension 1",this.listaC),
+                new claseDimension("dimension 2",this.listaC),
+                new claseDimension("dimension 3",this.listaC)
+            );
         };
 
         this.postDB = function () {
@@ -71,8 +80,8 @@ angular.module("acreditacion")
             this.listaDimensiones.push(new claseDimension(nombreDimension,listaComponentesSeleccionados));
         };
         this.removeDimension = function (dimension) {
-            for(i in this.listaComponentes){
-                if(this.listaComponentes[i].getNombreDimension() == dimension){
+            for(i in this.listaDimensiones){
+                if(this.listaDimensiones[i].getNombreDimension() == dimension){
                     this.listaDimensiones.splice(i,1);
                     return true;
                 }
@@ -103,33 +112,42 @@ angular.module("acreditacion")
     })
     .controller("Dimensiones",function ($scope,gestionDimensiones,gestionComponentes) {
         //gestionDimensiones.getFromDB();
-        $scope.dimensionesDisponibles = gestionDimensiones.getAll();
-        $scope.listaDimensionesSeleccionadas = new Array();
+        gestionDimensiones.llenarListaDimensiones();
+
+        console.log(gestionDimensiones.listaDimensiones);
+        gestionDimensiones.crearDimension("dimension 4",[]);
+        console.log(gestionDimensiones.listaDimensiones);
+        gestionDimensiones.removeDimension("dimension 2");
+        console.log(gestionDimensiones.listaDimensiones);
+
+
+        $scope.listaDimensionesSeleccionadas = new Array();//ARREGLO QUE ALMACENA LOS COMPONENTES SELECCIONADOS
         $scope.name = "";//ALMACENA EL NOMBRE DE LA DIMENSIÓN ESCRITO AL INTENTAR CREAR UNA DIMENSIÓN NUEVA
 
+
+        /*-----------------------------------MÉTODOS AUXILIARES------------------------------------------*/
         /*PERMITE INTENTAR GUARDAR UNA NUEVA DIMENSIÓN*/
         $scope.save = function () {
             if($scope.name == ""){
-                swal({
-                    title: "Crear Nueva Dimensión",
-                    text: "Esta acción no podrá revertirse.",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Si",
-                    cancelButtonText: "Cancelar",
-                    closeOnConfirm: false
-                }, function () {
-
-                    swal({
-                        title: "Creado",
-                        text: "Dimensión creada",
-                        type: "success",
-                        confirmButtonColor: "#140e39",
-                        timer: 1000,
-                        showConfirmButton: false
-                    });
-                });
+                /*swal({
+                        title: "Are you sure?",
+                        text: "You will not be able to recover this imaginary file!",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-danger",
+                        confirmButtonText: "Yes, delete it!",
+                        cancelButtonText: "No, cancel plx!",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function(isConfirm) {
+                        if (isConfirm) {
+                            swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                        } else {
+                            swal("Cancelled", "Your imaginary file is safe :)", "error");
+                        }
+                    }
+                );*/
             }
         }
     })
