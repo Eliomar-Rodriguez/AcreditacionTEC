@@ -26,14 +26,15 @@ angular.module("acreditacion")
                 }
                 return false;
             }
-            editarDimension(nuevoNombre){
+            editarDimension(nuevoNombre,listaComponentes){
                 this.nombreDimension = nuevoNombre;
+                this.listaComponentes = listaComponentes;
             }
         }
         return dimension;
     })
     .service("gestionDimensiones",function ($http,claseDimension) {
-        this.listaDimensiones = new Array();//ALMACENA LOS OBJETOS DE TIPO DIMENSIÓN
+        this.listaDimensiones = [];//ALMACENA LOS OBJETOS DE TIPO DIMENSIÓN
 
         this.getFromDB = function(){
             $http.get("http://IP/funcion")
@@ -44,26 +45,17 @@ angular.module("acreditacion")
                     $.notify("Error al procesar consulta!","error")
                 });
         };
-        this.llenarListaDimensiones = function () { //parametrolista
-            //for(var i = 0; i < lista.length; i++){
-              //  this.listaDimensiones.push(JSON.parse(lista[i]));
-            //}
-
-            //DATOS DE PRUEBA
-            this.listaC = [];
-            this.listaDimensiones.push(
-                new claseDimension("dimension 1",this.listaC),
-                new claseDimension("dimension 2",this.listaC),
-                new claseDimension("dimension 3",this.listaC)
-            );
+        this.llenarListaDimensiones = function (lista) { //parametrolista
+            for(var i = 0; i < lista.length; i++){
+                this.listaDimensiones.push(JSON.parse(lista[i]));
+            }
         };
-
-        this.postDB = function () {
+        this.postDB = function (objetoDimension) {
             $http({
                 method: 'POST',
                 url: '"http://IP/funcion"',
                 data: {
-                    nombreParametro: JSON.parse(this.listaDimensiones)
+                    nombreParametro: JSON.parse(objetoDimension)
                 },
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -76,79 +68,156 @@ angular.module("acreditacion")
                 }));
         };
 
-        this.crearDimension = function(nombreDimension,listaComponentesSeleccionados){
-            this.listaDimensiones.push(new claseDimension(nombreDimension,listaComponentesSeleccionados));
+        this.crearDimension = function(nombreDimension,listaComponentes){
+            this.listaDimensiones.push(new claseDimension(nombreDimension,listaComponentes));
+        };
+        this.getComponentByDimensionName = function (nombreDimension) {
+          for(i in this.listaDimensiones){
+              if(this.listaDimensiones[i].nombreDimension == nombreDimension){
+                  return this.listaDimensiones[i].listaComponentes;
+              }
+          }
         };
         this.removeDimension = function (dimension) {
             for(i in this.listaDimensiones){
                 if(this.listaDimensiones[i].getNombreDimension() == dimension){
                     this.listaDimensiones.splice(i,1);
-                    return true;
                 }
             }
-            return false;
+            return this.listaDimensiones;
         };
-        this.editarDimension = function (nombreActual,nuevoNombre) {
+        this.editarDimension = function (nombreActual,nuevoNombre,listaComponentes) {
             for(i in this.listaDimensiones){
                 if(this.listaDimensiones[i].getNombreDimension() == nombreActual){
-                    this.listaDimensiones[i].editarDimension(nuevoNombre);
-                    return true;
+                    this.listaDimensiones[i].editarDimension(nuevoNombre,listaComponentes);
                 }
             }
-            return false;
         };
         this.getAll = function(){
             return this.listaDimensiones;
         };
-        this.removeComponente = function (nombreDimension,nombreComponente) {
-            for(i in this.listaDimensiones){
-                if(this.listaDimensiones[i].getNombreDimension(nombreDimension)){
-                    this.listaDimensiones[i].removeComponente(nombreComponente);
+
+
+        /*PERMITE HACER C-R-D CON LA LISTA DE COMPONENTES SELECCIONADOS*/
+        this.removeSelectedComponente = function (componente,lista) {
+            for(i in lista){
+                if(lista[i].getNombre() == componente){
+                    lista.splice(i,1);
                     return true;
+                }
+            }
+            return false;
+        };
+        this.getComponent = function(componente,lista){
+            for(i in lista){
+                if(lista[i].getNombre() == componente){
+                    return lista[i];
                 }
             }
             return false;
         };
     })
-    .controller("Dimensiones",function ($scope,gestionDimensiones,gestionComponentes) {
-        //gestionDimensiones.getFromDB();
-        gestionDimensiones.llenarListaDimensiones();
-
-        console.log(gestionDimensiones.listaDimensiones);
-        gestionDimensiones.crearDimension("dimension 4",[]);
-        console.log(gestionDimensiones.listaDimensiones);
-        gestionDimensiones.removeDimension("dimension 2");
-        console.log(gestionDimensiones.listaDimensiones);
-
-
-        $scope.listaDimensionesSeleccionadas = new Array();//ARREGLO QUE ALMACENA LOS COMPONENTES SELECCIONADOS
+    .controller("Dimensiones",function ($scope,gestionDimensiones,gestionComponentes,claseComponente) {
+        /*------------------------------VARIABLES NECESARIAS---------------------------------*/
+        $scope.listaDimensiones = [];
+        $scope.listaComponentesDisponibles = [];//ARREGLO CON TODOS LOS COMPONENTES CREADOS
+        $scope.listaComponentesSeleccionados = [];//ARREGLO QUE ALMACENA LOS COMPONENTES SELECCIONADOS
+        $scope.listaDimensiones = gestionDimensiones.listaDimensiones; //ALMACENA LAS DIMENSIONES CREADAS
         $scope.name = "";//ALMACENA EL NOMBRE DE LA DIMENSIÓN ESCRITO AL INTENTAR CREAR UNA DIMENSIÓN NUEVA
+        $scope.removeSelected = "";//POSEE EL ITEM QUE SE QUIERE QUITAR DE LA LISTA DE COMPONENTES SELECCIONADOS
+        $scope.addComponent = ""; //POSEE EL ITEM QUE SE QUIERE AGREGAR A LA LISTA DE COMPONENTES SELECCIONADOS
+
+        //gestionDimensiones.getFromDB();
+        $scope.listaComponentesSeleccionados.push(
+            new claseComponente(1,"componente1"),
+            new claseComponente(2,"componente2"),
+            new claseComponente(3,"componente3")
+        );
+
+        $scope.listaComponentesDisponibles.push(
+            new claseComponente(1,"componente1"),
+            new claseComponente(2,"componente2"),
+            new claseComponente(3,"componente3"),
+            new claseComponente(4,"componente4")
+        );
+
+        //$scope.listaDimensiones = gestionDimensiones.getAll();
 
 
         /*-----------------------------------MÉTODOS AUXILIARES------------------------------------------*/
         /*PERMITE INTENTAR GUARDAR UNA NUEVA DIMENSIÓN*/
         $scope.save = function () {
-            if($scope.name == ""){
-                /*swal({
-                        title: "Are you sure?",
-                        text: "You will not be able to recover this imaginary file!",
+            if($scope.name != "" && $scope.listaComponentesSeleccionados != []){
+                swal({
+                        title: "Aceptar",
+                        text: "Se registrará un nueva dimensión!",
                         type: "warning",
                         showCancelButton: true,
-                        confirmButtonClass: "btn-danger",
-                        confirmButtonText: "Yes, delete it!",
-                        cancelButtonText: "No, cancel plx!",
+                        confirmButtonClass: "btn-primary",
+                        confirmButtonText: "Sí, Crearlo!",
+                        cancelButtonText: "No, Cancelar!",
+                        cancelButtonClass:"btn-danger",
                         closeOnConfirm: false,
                         closeOnCancel: false
                     },
                     function(isConfirm) {
                         if (isConfirm) {
-                            swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                            $scope.listaDimensiones = [];
+                            gestionDimensiones.crearDimension($scope.name,$scope.listaComponentesSeleccionados);
+
+                            $scope.listaDimensiones = gestionDimensiones.getAll();
+                            console.log($scope.listaDimensiones);
+
+                            swal("Agregado!", "Registro creado.", "success");
+                            $("#modalAddDimension").modal("hide");
+
                         } else {
-                            swal("Cancelled", "Your imaginary file is safe :)", "error");
+                            swal("Cancelado", "Operación cancelada", "error");
                         }
                     }
-                );*/
+                );
+
             }
+            else if($scope.name == ""){
+                swal("Campo nombre vacío","Ingrese un nombre valido primero","error");
+            }
+            else{
+                swal("Componentes","Seleccione al menos componente","error");
+            }
+        };
+        $scope.openModalEdit = function (nombre) {
+            $scope.dimensionName = nombre;
+            $scope.auxiliarName = nombre;//PERMITE GUARDAR EL NOMBRE ORIGINAL
+            $scope.listaComponentesSeleccionados = gestionDimensiones.getComponentByDimensionName(nombre);
+        };
+        $scope.editDimension = function () {
+          if($scope.dimensionName != "" && this.listaComponentesSeleccionados != []){
+              gestionDimensiones.editarDimension($scope.auxiliarName,$scope.dimensionName,$scope.listaComponentesSeleccionados);
+          }
+        };
+        /*PERMITE QUITAR UN COMPONENTE DE LA LISTA DE COMPONENTES SELECCIONADOS*/
+        $scope.removeComponent = function () {
+            if($scope.removeSelected == ""){
+                swal("Seleccione un componente","Debe seleccionar al menos un componente!","error");
+            }
+            else{
+                gestionDimensiones.removeSelectedComponente($scope.removeSelected,this.listaComponentesSeleccionados);
+            }
+        }
+        /*PERMITE MOVER UN COMPONENTE DE LA LISTA COMPONENTES DISPONIBLES A LA LISTA DE COMPONENTES SELECCIONADOS*/
+        $scope.moveComponent = function () {
+            if($scope.addComponent != "" ){
+                if(!gestionDimensiones.getComponent($scope.addComponent,$scope.listaComponentesSeleccionados)){
+                    $scope.listaComponentesSeleccionados.push(gestionDimensiones.getComponent($scope.addComponent,$scope.listaComponentesDisponibles));
+                }
+            }
+            else{
+                swal("Componentes","Seleccione un componente!","error");
+            }
+        }
+        $scope.removeDimension = function (dimension) {
+            gestionDimensiones.removeDimension(dimension);
+            swal("Eliminado","Registrado eliminado!","success");
         }
     })
 ;

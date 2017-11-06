@@ -4,7 +4,7 @@
 
 angular.module("acreditacion")
     .factory("claseComponente",function () {
-        class Componente{
+        class componente{
             constructor(id,nombreComponente){
                 this.idComponente = id;
                 this.nombreComponente = nombreComponente;
@@ -12,10 +12,14 @@ angular.module("acreditacion")
             getComponent(){
                 return this.idComponente;
             }
+            getNombre(){
+                return this.nombreComponente;
+            }
             editarComponente(nuevoNombre){
                 this.nombreComponente = nuevoNombre;
             }
         }
+        return componente;
     })
     .service("gestionComponentes",function () {
 
