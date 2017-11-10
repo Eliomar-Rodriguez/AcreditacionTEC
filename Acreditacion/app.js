@@ -10,6 +10,10 @@ angular.module("acreditacion",['ngRoute','LocalStorageModule'])
         controller: "Dimensiones",
         templateUrl: "templates/dimensiones.html"
     })
+    .when('/CriteriosYEstandares',{
+        controller: "CriteriosYEstandares",
+        templateUrl: "templates/CYE.html"
+    })
     .otherwise({
         redirectTo: '/'
   }); 

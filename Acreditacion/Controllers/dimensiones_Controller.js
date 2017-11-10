@@ -70,6 +70,7 @@ angular.module("acreditacion")
 
         this.crearDimension = function(nombreDimension,listaComponentes){
             this.listaDimensiones.push(new claseDimension(nombreDimension,listaComponentes));
+            //this.postDB(new claseDimension(nombreDimension,listaComponentes));//ENVÍA EL OBJETO AL A BD
         };
         this.getComponentByDimensionName = function (nombreDimension) {
           for(i in this.listaDimensiones){
@@ -166,10 +167,10 @@ angular.module("acreditacion")
                             gestionDimensiones.crearDimension($scope.name,$scope.listaComponentesSeleccionados);
 
                             $scope.listaDimensiones = gestionDimensiones.getAll();
-                            console.log($scope.listaDimensiones);
 
                             swal("Agregado!", "Registro creado.", "success");
                             $("#modalAddDimension").modal("hide");
+                            //window.location.reload();
 
                         } else {
                             swal("Cancelado", "Operación cancelada", "error");
