@@ -1,7 +1,7 @@
-#Acreditación TEC SINAES
-Instituto Tecnológico de Costa Rica
-Comunidad de Aplicaciones Móviles
-Desarrolladores:
+# Acreditación TEC SINAES
+ Instituto Tecnológico de Costa Rica
+ Comunidad de Aplicaciones Móviles
+ Desarrolladores:
 - Eliomar Rodríguez Arguedas
 - Josué Arce González
 - Bryan Ruiz
