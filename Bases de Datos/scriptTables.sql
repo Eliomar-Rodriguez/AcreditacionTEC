@@ -5,8 +5,12 @@ USE AcreditacionTEC;
 GO
 CREATE TABLE Componentes(
 	ID				INT	IDENTITY(1,1)	NOT NULL,
-	Componente		VARCHAR(50)			NOT NULL	UNIQUE,
-	CONSTRAINT PK_Componentes_ID		PRIMARY KEY CLUSTERED (ID)
+	ID_Dimension	INT					NOT NULL,
+	Componente		VARCHAR(50)			UNIQUE,
+	CONSTRAINT PK_Componentes_ID		PRIMARY KEY CLUSTERED (ID),
+
+	CONSTRAINT FK_Componentes_ID_Dimension	FOREIGN KEY (ID_Dimension) 
+		REFERENCES	dbo.Dimensiones (ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 GO
 
@@ -17,12 +21,8 @@ USE AcreditacionTEC;
 GO
 CREATE TABLE Dimensiones(
 	ID				INT	IDENTITY(1,1)	NOT NULL,
-	ID_Componente	INT					NOT NULL,
 	Dimension		VARCHAR(50)			NOT NULL	UNIQUE,
-	CONSTRAINT PK_Dimensiones_ID PRIMARY KEY CLUSTERED (ID),
-
-	CONSTRAINT FK_Dimensiones_ID_Componente	FOREIGN KEY (ID_Componente) 
-		REFERENCES	dbo.Componentes (ID) ON DELETE CASCADE ON UPDATE CASCADE
+	CONSTRAINT PK_Dimensiones_ID PRIMARY KEY CLUSTERED (ID)
 );
 GO
 
@@ -61,13 +61,13 @@ USE AcreditacionTEC;
 GO
 CREATE TABLE CYE(
 	ID				INT	IDENTITY(1,1)	NOT NULL,
-	ID_Componente	INT,
+	ID_Dimension	INT,
 	ID_Carrera		INT,
 	Criterio		VARCHAR (300)		NOT NULL	UNIQUE,
 	CONSTRAINT PK_CYE_ID			PRIMARY KEY CLUSTERED (ID),
 
-	CONSTRAINT FK_CYE_ID_Componente FOREIGN KEY (ID_Componente) 
-		REFERENCES	dbo.Componentes (ID) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT FK_CYE_ID_Dimension FOREIGN KEY (ID_Dimension) 
+		REFERENCES	dbo.Dimensiones (ID) ON DELETE CASCADE ON UPDATE CASCADE,
 
 	CONSTRAINT FK_CYE_ID_Carrera FOREIGN KEY (ID_Carrera) 
 		REFERENCES	dbo.Carreras (ID) ON DELETE CASCADE ON UPDATE CASCADE
@@ -184,8 +184,8 @@ Tabla CYEA_Responsables, tabla producida por la normalización de la relación ent
 USE AcreditacionTEC;
 GO
 CREATE TABLE CYEA_Responsables(
-	ID_CYEA			INT,
-	ID_Responsable	INT,
+	ID_CYEA				INT,
+	ID_Responsable		INT,
 	TipoResponsabilidad VARCHAR(250),
 	CONSTRAINT FK_CYEA_Responsables_ID_CYEA	FOREIGN KEY (ID_CYEA) 
 		REFERENCES	dbo.CYEA (ID) ON DELETE CASCADE ON UPDATE CASCADE,

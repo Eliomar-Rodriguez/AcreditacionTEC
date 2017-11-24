@@ -7,49 +7,49 @@ GO
 */
 /*
 	Procedimiento almacenado encargado de la inserción de nuevas dimensiones enviando el nombre
-*/
+*/ 
 CREATE PROCEDURE dbo.insertDimension -- LISTO
 	@nombreDimension	VARCHAR(50),
-	@ID_Componente		INT 
+	@success			BIT		OUTPUT
 AS 
 	BEGIN
-		IF ((SELECT COUNT(*) FROM dbo.Dimensiones AS D WHERE D.Dimension = @nombreDimension AND D.ID_Componente = @ID_Componente) = 1)
+		IF ((SELECT COUNT(*) FROM dbo.Dimensiones AS D WHERE D.Dimension = @nombreDimension) = 1)
 			BEGIN
-				RAISERROR('La dimensión que intenta insertar ya se encuentra registrada.',16,1);
+				SET @success = 0 -- error
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
-				INSERT INTO dbo.Dimensiones (Dimension, ID_Componente)  VALUES (@nombreDimension,@ID_Componente);
+				INSERT INTO dbo.Dimensiones (Dimension)  VALUES (@nombreDimension);
+				SET @success = 1 -- exito
+				SELECT @success
 			END;			
 	END;
 GO
+
 /*
 	Procedimiento almacenado encargado de la edición de de dimensiones y recibe por parámetro el ID de la dimensión a 
 	editar y el nuevo nombre que se le va a asignar
-*/
+*/ 
 CREATE PROCEDURE dbo.editDimension -- LISTO
 	@ID_Dimension		INT,
 	@nombreDimension	VARCHAR(50),
-	@ID_Componente		INT
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.Dimensiones AS D WHERE D.ID = @ID_Dimension) = 1)
 			BEGIN
-				IF ((SELECT COUNT(*) FROM dbo.Componentes AS D WHERE D.ID = @ID_Componente) = 1)
-					BEGIN
-						UPDATE dbo.Dimensiones 
-						SET Dimension= @nombreDimension,
-							ID_Componente = @ID_Componente
-						WHERE ID = @ID_Dimension;
-					END;
-				ELSE
-					BEGIN
-						RAISERROR('El componente que intenta asociar no se encuentra registrado.',16,1);
-					END;
+				UPDATE dbo.Dimensiones 
+				SET Dimension= @nombreDimension
+				WHERE ID = @ID_Dimension;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('La dimensión que intenta editar no se encuentra registrada.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;		
 	END;
 GO
@@ -58,16 +58,21 @@ GO
 	dimensión a eliminar
 */
 CREATE PROCEDURE dbo.deleteDimension -- LISTO
-	@ID_Dimension	INT
+	@ID_Dimension	INT,
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.Dimensiones AS D WHERE D.ID = @ID_Dimension) = 1)
 			BEGIN
 				DELETE FROM dbo.Dimensiones WHERE ID = @ID_Dimension;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR ('La dimensión que intentas eliminar no existe.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;		
 	END;
 GO
@@ -82,55 +87,92 @@ GO
 	Procedimiento almacenado encargado de la inserción de nuevos componentes enviando el nombre y la dimension a la que pertenece
 */
 CREATE PROCEDURE dbo.insertComponente -- listo
-	@nombreComponente	VARCHAR(50)
+	@Componente	VARCHAR(50),
+	@ID_Dimension		INT,
+	@success			BIT		OUTPUT
 AS 
 	BEGIN
-		IF ((SELECT COUNT(*) FROM dbo.Componentes AS C WHERE C.Componente = @nombreComponente) = 1)
+		IF ((SELECT COUNT(*) FROM dbo.Componentes AS C WHERE C.Componente = @Componente AND C.ID_Dimension = @ID_Dimension) = 1)
 			BEGIN
-				RAISERROR('El componente que intenta insertar ya se encuentra registrado.',16,1);
+				RAISERROR('El componente que intenta registrar ya se encuentra registrado.',16,1);
+				SET @success = 0 --error
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
-				INSERT INTO dbo.Componentes (Componente)  VALUES (@nombreComponente);
+				IF ((SELECT COUNT(*) FROM dbo.Dimensiones AS C WHERE C.ID = @ID_Dimension) = 1)
+					BEGIN
+						INSERT INTO dbo.Componentes (Componente, ID_Dimension)  VALUES (@Componente, @ID_Dimension);
+						SET @success = 1 --exito
+						SELECT @success
+					END;
+				ELSE
+					BEGIN
+						RAISERROR('La dimension que intenta asociar no se encuentra registrada.',16,1);
+						SET @success = 0 --error
+						SELECT @success
+					END;
 			END;
 	END;
 GO
+
 /*
 	Procedimiento almacenado encargado de la edición de componentes y recibe por parámetro el ID del componente a 
 	editar, el ID de la nueva dimensión y el nuevo nombre que se le va a asignar
 */
 CREATE PROCEDURE dbo.editComponente -- listo
 	@ID_Componente		INT,
-	@nombreComponente	VARCHAR(50)
+	@ID_Dimension		INT,
+	@nombreComponente	VARCHAR(50),
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.Componentes AS C WHERE C.ID = @ID_Componente) = 1) -- existe el componente a editar
 			BEGIN
-				UPDATE dbo.Componentes 
-				SET Componente= @nombreComponente
-				WHERE ID = @ID_Componente;
-					
+				IF ((SELECT COUNT(*) FROM dbo.Dimensiones AS C WHERE C.ID = @ID_Dimension) = 1)
+					BEGIN
+						UPDATE dbo.Componentes 
+						SET Componente= @nombreComponente,
+							ID_Dimension = @ID_Dimension
+						WHERE ID = @ID_Componente;
+						SET @success = 1 --success
+						SELECT @success
+					END;
+				ELSE
+					BEGIN
+						RAISERROR('La dimension que intenta asociar no se encuentra registrada.',16,1);
+						SET @success = 0 --error
+						SELECT @success
+					END;					
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('El componente que intenta editar no se encuentra registrado.',16,1);
+				SET @success = 0 --error
+				SELECT @success
 			END;
 	END;
 GO
+
 /*
 	Procedimiento almacenado encargado de la eliminación de un componente en especifico enviando por parámetro el ID del componente a eliminar
 */
 CREATE PROCEDURE dbo.deleteComponente -- listo
-	@ID_Componente		INT
+	@ID_Componente		INT,
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.Componentes AS C WHERE C.ID = @ID_Componente) = 1)
 			BEGIN
 				DELETE FROM dbo.Componentes WHERE ID = @ID_Componente;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('El componente que deseas eliminar no se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;
 GO
@@ -145,16 +187,21 @@ GO
 	Procedimiento almacenado encargado de la inserción de nuevas sedes enviando el nombre
 */
 CREATE PROCEDURE dbo.insertSede --listo
-	@nombreSede		VARCHAR(50)
+	@nombreSede		VARCHAR(50),
+	@success			BIT		OUTPUT
 AS 
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.Sedes AS S WHERE S.Sede = @nombreSede) = 1)
 			BEGIN
 				RAISERROR('La sede que deseas insertar ya se encuentra registrada.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				INSERT INTO dbo.Sedes(Sede)  VALUES (@nombreSede);
+				SET @success = 1
+				SELECT @success
 			END;
 	END;
 GO
@@ -164,7 +211,8 @@ GO
 */
 CREATE PROCEDURE dbo.editSede -- listo
 	@ID_Sede		INT,
-	@nombreSede		VARCHAR(50)
+	@nombreSede		VARCHAR(50),
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.Sedes AS S WHERE S.ID = @ID_Sede) = 1)
@@ -172,10 +220,14 @@ AS
 				UPDATE dbo.Sedes 
 				SET Sede= @nombreSede
 				WHERE ID = @ID_Sede;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('La sede que intentas editar no se encuentra registrada.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;
 GO
@@ -183,16 +235,21 @@ GO
 	Procedimiento almacenado encargado de la eliminación de una sede en especifico enviando por parámetro el ID de la sede a eliminar
 */
 CREATE PROCEDURE dbo.deleteSede --listo
-	@ID_Sede	INT
+	@ID_Sede	INT,
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.Sedes AS S WHERE S.ID = @ID_Sede) = 1)
 			BEGIN
 				DELETE FROM dbo.Sedes WHERE ID = @ID_Sede;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('La sede que intentas eliminar no se encuentra registrada.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;
 GO
@@ -208,7 +265,8 @@ GO
 */
 CREATE PROCEDURE dbo.insertCarrera -- listo
 	@nombreCarrera		VARCHAR(50),
-	@ID_Sede			INT
+	@ID_Sede			INT,
+	@success			BIT		OUTPUT
 AS 
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.Sedes AS S WHERE S.ID = @ID_Sede) = 1) -- existe la sede a asociar
@@ -216,15 +274,21 @@ AS
 				IF ((SELECT COUNT(*) FROM dbo.Carreras AS C WHERE C.Carrera = @nombreCarrera) = 0) -- verifica que no exista la carrera para insertarla
 					BEGIN
 						INSERT INTO dbo.Carreras(ID_Sede, Carrera)  VALUES (@ID_Sede, @nombreCarrera);
+						SET @success = 1
+						SELECT @success
 					END;
 				ELSE
 					BEGIN
 						RAISERROR('La carrera que desea insertar ya se encuentra registrada.',16,1);	
+						SET @success = 0
+						SELECT @success
 					END;
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('La sede que desea asociar no se encuentra registrada.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;			
 	END;
 GO
@@ -235,7 +299,8 @@ GO
 CREATE PROCEDURE dbo.editCarrera -- listo
 	@ID_Carrera		INT,
 	@nombreCarrera	VARCHAR(50),
-	@ID_Sede		INT
+	@ID_Sede		INT,
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.Carreras AS C WHERE C.ID = @ID_Carrera) = 1) -- verifica que exista la carrera que se desea editar
@@ -246,15 +311,21 @@ AS
 						SET ID_Sede = @ID_Sede,
 							Carrera = @nombreCarrera
 						WHERE ID = @ID_Carrera;
+						SET @success = 1
+						SELECT @success
 					END;
 				ELSE
 					BEGIN
 						RAISERROR('La sede que intenta asociar no se encuentra registrada.',16,1);
+						SET @success = 0
+						SELECT @success
 					END;
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('La carrera que intenta editar no se encuentra registrada.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;
 GO
@@ -262,16 +333,21 @@ GO
 	Procedimiento almacenado encargado de la eliminación de una carrera en especifico enviando por parámetro el ID de la carrera que se desea eliminar
 */
 CREATE PROCEDURE dbo.deleteCarrera -- listo
-	@ID_Carrera		INT
+	@ID_Carrera		INT,
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.Carreras AS C WHERE C.ID = @ID_Carrera) = 1)
 			BEGIN
 				DELETE FROM dbo.Carreras WHERE ID = @ID_Carrera;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('La carrera que intenta eliminar no se encuentra registrada.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;
 GO
@@ -289,7 +365,8 @@ GO
 CREATE PROCEDURE dbo.insertCYE -- listo
 	@ID_Componente		INT,
 	@ID_Carrera			INT,
-	@Criterio			VARCHAR(300)
+	@Criterio			VARCHAR(300),
+	@success			BIT		OUTPUT
 AS 
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.CYE AS C WHERE C.Criterio = @Criterio) = 0) -- verifica que el CYE no exista
@@ -299,20 +376,28 @@ AS
 						IF ((SELECT COUNT(*) FROM dbo.Carreras AS C WHERE C.ID = @ID_Carrera) = 1) -- verifica que exista la carrera
 							BEGIN
 								INSERT INTO dbo.CYE(ID_Componente, ID_Carrera, Criterio)  VALUES (@ID_Componente, @ID_Carrera, @Criterio);
+								SET @success = 1
+								SELECT @success
 							END;
 						ELSE
 							BEGIN
 								RAISERROR('La carrera que intenta asociar no se encuentra registrada.',16,1);
+								SET @success = 0
+								SELECT @success
 							END;
 					END;
 				ELSE
 					BEGIN
 						RAISERROR('El componente que intenta asociar no se encuentra registrado.',16,1);
+						SET @success = 0
+						SELECT @success
 					END;
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('El CYE que intenta insertar ya se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;
 GO
@@ -324,7 +409,8 @@ CREATE PROCEDURE dbo.editCYE -- listo
 	@ID_CYE				INT,
 	@ID_Componente		INT,
 	@ID_Carrera			INT,
-	@Criterio			VARCHAR(300)
+	@Criterio			VARCHAR(300),
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.CYE AS C WHERE C.ID = @ID_CYE) = 1) -- verifica que el CYE exista
@@ -338,20 +424,28 @@ AS
 									ID_Carrera = @ID_Carrera,
 									Criterio = @Criterio
 								WHERE ID = @ID_CYE;
+								SET @success = 1
+								SELECT @success
 							END;
 						ELSE
 							BEGIN
 								RAISERROR('La carrera que intenta asociar no se encuentra registrada.',16,1);
+								SET @success = 0
+								SELECT @success
 							END;
 					END;
 				ELSE
 					BEGIN
 						RAISERROR('El componente que intenta asociar no se encuentra registrado.',16,1);
+						SET @success = 0
+						SELECT @success
 					END;
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('El CYE que intenta editar no se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;
 GO
@@ -359,16 +453,21 @@ GO
 	Procedimiento almacenado encargado de la eliminación de un CYE en especifico enviando por parámetro el ID del criterio que se desea eliminar
 */
 CREATE PROCEDURE dbo.deleteCYE -- listo
-	@ID_CYE		INT
+	@ID_CYE		INT,
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.CYE AS C WHERE C.ID = @ID_CYE) = 1) -- verifica que el CYE exista
 			BEGIN
 				DELETE FROM dbo.CYE WHERE ID = @ID_CYE;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR ('El CYE que intenta eliminar no se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;	
 GO
@@ -385,16 +484,21 @@ GO
 */
 CREATE PROCEDURE dbo.insertAutoevaluacionAnual --listo
 	@ID_Encargado		INT,
-	@anio				INT
+	@anio				INT,
+	@success			BIT		OUTPUT
 AS 
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.AutoevaluacionesAnuales AS A WHERE A.Anio = @anio AND A.ID_Encargado = @ID_Encargado) > 0)
 			BEGIN
 				RAISERROR ('La autoevalución que desea insertar ya se encuentra registrada.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				INSERT INTO dbo.AutoevaluacionesAnuales(ID_Encargado, Anio)  VALUES (@ID_Encargado, @anio);
+				SET @success = 1
+				SELECT @success
 			END;
 	END;    
 GO
@@ -405,7 +509,8 @@ GO
 CREATE PROCEDURE dbo.editAutoevaluacionAnual -- listo
 	@ID_AutoevalAnual		INT,
 	@ID_Encargado			INT,
-	@anio					INT
+	@anio					INT,
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.AutoevaluacionesAnuales AS A WHERE A.ID = @ID_AutoevalAnual) = 1) -- existe esa autoevaluacion
@@ -414,10 +519,14 @@ AS
 				SET ID_Encargado = @ID_Encargado,
 					Anio = @anio
 				WHERE ID = @ID_AutoevalAnual;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('La autoevaluación indicada no se encuentra registrada.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;	
 GO
@@ -425,16 +534,21 @@ GO
 	Procedimiento almacenado encargado de la eliminación de una Autoevaluacion Anual en especifico enviando por parámetro el ID de la Autoevaluacion que se desea eliminar
 */
 CREATE PROCEDURE dbo.deleteAutoevaluacionAnual -- listo
-	@ID_AutoevalAnual		INT
+	@ID_AutoevalAnual		INT,
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.AutoevaluacionesAnuales AS A WHERE A.ID = @ID_AutoevalAnual) = 1)
 			BEGIN
 				DELETE FROM dbo.AutoevaluacionesAnuales WHERE ID = @ID_AutoevalAnual;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('La autoevaluación indicada no se encuentra registrada.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;	
 GO
@@ -449,16 +563,21 @@ GO
 	Procedimiento almacenado encargado de la inserción de nuevos Niveles IAE enviando el nombre del nivel
 */
 CREATE PROCEDURE dbo.insertNivelIAE -- listo
-	@Nivel		VARCHAR(50)
+	@Nivel		VARCHAR(50),
+	@success			BIT		OUTPUT
 AS 
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.NivelesIAE AS N WHERE N.NivelIAE = @Nivel) = 1) -- existe nivel
 			BEGIN
 				RAISERROR('El nivel IAE que desea agregar ya se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				INSERT INTO dbo.NivelesIAE(NivelIAE)  VALUES (@Nivel);
+				SET @success = 1
+				SELECT @success
 			END;
 	END;
 GO
@@ -467,7 +586,8 @@ GO
 */
 CREATE PROCEDURE dbo.editNivelIAE -- listo
 	@ID_Nivel		INT,
-	@Nivel			VARCHAR(50)
+	@Nivel			VARCHAR(50),
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.NivelesIAE AS N WHERE N.ID = @ID_Nivel) = 1) -- existe nivel
@@ -475,10 +595,14 @@ AS
 				UPDATE dbo.NivelesIAE 
 				SET NivelIAE = @Nivel
 				WHERE ID = @ID_Nivel;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('El nivel IAE que desea editar no se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;	
 GO
@@ -486,16 +610,21 @@ GO
 	Procedimiento almacenado encargado de la eliminación de un nivel IAE en especifico enviando por parámetro el ID del nivel a eliminar
 */
 CREATE PROCEDURE dbo.deleteNivelIAE -- listo
-	@ID_Nivel		INT
+	@ID_Nivel		INT,
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.NivelesIAE AS N WHERE N.ID = @ID_Nivel) = 1) -- existe nivel
 			BEGIN
 				DELETE FROM dbo.NivelesIAE WHERE ID = @ID_Nivel;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('El nivel IAE que desea eliminar no se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;	
 GO
@@ -510,16 +639,21 @@ GO
 	Procedimiento almacenado encargado de la inserción de nuevas valoraciones enviando el nombre de la valoracion
 */
 CREATE PROCEDURE dbo.insertValoracion -- listo
-	@Valoracion		VARCHAR(50)
+	@Valoracion		VARCHAR(50),
+	@success			BIT		OUTPUT
 AS 
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.Valoraciones AS V WHERE V.Valoracion = @Valoracion) = 1) -- existe valoracion
 			BEGIN
 				RAISERROR('La valoración que desea insertar ya se encuentra registrada.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				INSERT INTO dbo.Valoraciones(Valoracion)  VALUES (@Valoracion);
+				SET @success = 1
+				SELECT @success
 			END;
 	END;
 GO
@@ -528,7 +662,8 @@ GO
 */
 CREATE PROCEDURE dbo.editValoracion -- listo
 	@ID_Valoracion		INT,
-	@Valoracion			VARCHAR(50)
+	@Valoracion			VARCHAR(50),
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.Valoraciones AS V WHERE V.ID = @ID_Valoracion) = 1) -- existe valoracion
@@ -536,10 +671,14 @@ AS
 				UPDATE dbo.Valoraciones 
 				SET Valoracion = @Valoracion
 				WHERE ID = @ID_Valoracion;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('La valoración que desea editar no se encuentra registrada.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;	
 GO
@@ -547,16 +686,21 @@ GO
 	Procedimiento almacenado encargado de la eliminación de una valoracion en especifico enviando por parámetro el ID de la valoracion a eliminar
 */
 CREATE PROCEDURE dbo.deleteValoracion -- listo
-	@ID_Valoracion		INT
+	@ID_Valoracion		INT,
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.Valoraciones AS V WHERE V.ID = @ID_Valoracion) = 1) -- existe valoracion
 			BEGIN
 				DELETE FROM dbo.Valoraciones WHERE ID = @ID_Valoracion;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('La valoración que desea eliminar no se encuentra registrada.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;	
 GO
@@ -571,16 +715,21 @@ GO
 	Procedimiento almacenado encargado de la inserción de nuevas fechas de cumplimiento nominal enviando la fecha a cumplir
 */
 CREATE PROCEDURE dbo.insertCumplimientoNominal -- listo
-	@FechaCumplimiento		DATE
+	@FechaCumplimiento		DATE,
+	@success			BIT		OUTPUT
 AS 
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.CumplimientosNominales AS CN WHERE CN.FechaCumplimiento = @FechaCumplimiento) = 1) -- existe ya un CumplNomin
 			BEGIN
 				RAISERROR('El cumplimiento nominal que desea insertar ya se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 		ELSE
 			BEGIN				
 				INSERT INTO dbo.CumplimientosNominales(FechaCumplimiento) VALUES (@FechaCumplimiento);
+				SET @success = 1
+				SELECT @success
 			END;
 	END;
 GO
@@ -590,7 +739,8 @@ GO
 */
 CREATE PROCEDURE dbo.editCumplimientoNominal -- listo
 	@ID_CumpliNominal		INT,
-	@FechaCumplimiento		DATE
+	@FechaCumplimiento		DATE,
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.CumplimientosNominales AS CN WHERE CN.ID = @ID_CumpliNominal) = 1) -- existe un CumplNomin
@@ -598,10 +748,14 @@ AS
 				UPDATE dbo.CumplimientosNominales 
 				SET FechaCumplimiento = @FechaCumplimiento
 				WHERE ID = @ID_CumpliNominal;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('El cumplimiento nominal que desea editar no se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;	
 GO
@@ -609,16 +763,21 @@ GO
 	Procedimiento almacenado encargado de la eliminación de un cumplimiento nominal en especifico enviando por parámetro el ID del cumplimiento a eliminar
 */
 CREATE PROCEDURE dbo.deleteCumplimientoNominal -- listo
-	@ID_CumpliNominal		INT
+	@ID_CumpliNominal		INT,
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.CumplimientosNominales AS CN WHERE CN.ID = @ID_CumpliNominal) = 1) -- existe un CumplNomin
 			BEGIN
 				DELETE FROM dbo.CumplimientosNominales WHERE ID = @ID_CumpliNominal;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('El cumplimiento nominal que desea eliminar no se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;
 GO
@@ -633,16 +792,21 @@ GO
 	Procedimiento almacenado encargado de la inserción de nuevos responsables enviando el correo del dicha persona
 */
 CREATE PROCEDURE dbo.insertResponsable -- listo
-	@Correo		VARCHAR(100)
+	@Correo		VARCHAR(100),
+	@success			BIT		OUTPUT
 AS 
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.Responsables AS CN WHERE CN.Correo = @Correo) = 1) -- existe un responsable
 			BEGIN
 				RAISERROR('El responsable que desea insertar ya se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				INSERT INTO dbo.Responsables(Correo)  VALUES (@Correo);
+				SET @success = 1
+				SELECT @success
 			END;
 	END;    
 GO
@@ -652,7 +816,8 @@ GO
 */
 CREATE PROCEDURE dbo.editResponsable -- listo
 	@ID_Responsable		INT,
-	@Correo				VARCHAR(100)
+	@Correo				VARCHAR(100),
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.Responsables AS CN WHERE CN.ID = @ID_Responsable) = 1) -- existe un responsable
@@ -660,10 +825,14 @@ AS
 				UPDATE dbo.Responsables 
 				SET Correo = @Correo
 				WHERE ID = @ID_Responsable;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('El responsable que desea editar no se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;	
 GO
@@ -671,16 +840,21 @@ GO
 	Procedimiento almacenado encargado de la eliminación de un responsable especifico enviando por parámetro el ID del responsable a eliminar
 */
 CREATE PROCEDURE dbo.deleteResponsable -- listo
-	@ID_Responsable		INT
+	@ID_Responsable		INT,
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.Responsables AS CN WHERE CN.ID = @ID_Responsable) = 1) -- existe un responsable
 			BEGIN
 				DELETE FROM dbo.Responsables WHERE ID = @ID_Responsable;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('El responsable que desea eliminar no se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;	
 GO
@@ -697,16 +871,21 @@ GO
 */
 CREATE PROCEDURE dbo.insertEvidencia -- listo
 	@TipoEvidencia		INT,
-	@URL				VARCHAR(350)
+	@URL				VARCHAR(350),
+	@success			BIT		OUTPUT
 AS 
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.Evidencias AS E WHERE E.TipoEvidencia = @TipoEvidencia AND E.URL = @URL) = 1) -- existe una evidencia
 			BEGIN
 				RAISERROR('La evidencia que desea insertar ya se encuentra registrada.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				INSERT INTO dbo.Evidencias(TipoEvidencia, URL)  VALUES (@TipoEvidencia, @URL);
+				SET @success = 1
+				SELECT @success
 			END;
 	END;    
 GO
@@ -717,7 +896,8 @@ GO
 CREATE PROCEDURE dbo.editEvidencia -- listo
 	@ID_Evidencia		INT,
 	@TipoEvidencia		INT,
-	@URL				VARCHAR(350)
+	@URL				VARCHAR(350),
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.Evidencias AS E WHERE E.ID = @ID_Evidencia) = 1) -- existe una evidencia
@@ -726,10 +906,14 @@ AS
 				SET TipoEvidencia = @TipoEvidencia,
 					URL = @URL
 				WHERE ID = @ID_Evidencia;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN			
 				RAISERROR('La evidencia que desea editar no se encuentra registrada.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;	
 GO
@@ -737,16 +921,21 @@ GO
 	Procedimiento almacenado encargado de la eliminación de una evidencia especifica enviando por parámetro el ID de la evidencia a eliminar
 */
 CREATE PROCEDURE dbo.deleteEvidencia -- LISTO
-	@ID_Evidencia		INT
+	@ID_Evidencia		INT,
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.Evidencias AS E WHERE E.ID = @ID_Evidencia) = 1) -- existe una evidencia
 			BEGIN
 				DELETE FROM dbo.Evidencias WHERE ID = @ID_Evidencia;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('La evidencia que desea eliminar no se encuentra registrada.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;
 GO
@@ -768,7 +957,8 @@ CREATE PROCEDURE dbo.insertCYEA -- LISTO
 	@FLOC					DATE,
 	@FLA					DATE,
 	@IncorporadoIAE			INT,
-	@Observaciones			VARCHAR(500)
+	@Observaciones			VARCHAR(500),
+	@success			BIT		OUTPUT
 AS 
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.CYE AS C WHERE C.ID = @ID_CYE_General) = 1) -- existe el CYE
@@ -788,26 +978,36 @@ AS
 																	C.Observaciones = 	@Observaciones) = 1) -- existe un CYEA
 									BEGIN
 										RAISERROR('El CYEA que desea agregar ya se encuentra registrado.',16,1);
+										SET @success = 0
+										SELECT @success
 									END
 								ELSE
 									BEGIN
 										INSERT INTO dbo.CYEA(ID_CYE_General, ID_Valoracion, ID_NivelIAE, CriterioAjustado, FLOC, FLA, IncorporadoIAE, Observaciones)  VALUES 
 											(@ID_CYE_General, @ID_Valoracion, @ID_NivelIAE, @CriterioAjustado, @FLOC, @FLA, @IncorporadoIAE, @Observaciones);
+										SET @success = 1
+										SELECT @success
 									END;
 							END
 						ELSE
 							BEGIN
 								RAISERROR('El nivel IAE que desea agregar no se encuentra registrado.',16,1);
+								SET @success = 0
+								SELECT @success
 							END;
 					END
 				ELSE
 					BEGIN
 						RAISERROR('La valoración que desea agregar no se encuentra registrada.',16,1);
+						SET @success = 0
+						SELECT @success
 					END;
 			END
 		ELSE
 			BEGIN
 				RAISERROR('El CYE que desea agregar no se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;
 GO
@@ -823,7 +1023,8 @@ CREATE PROCEDURE dbo.editCYEA -- listo
 	@FLOC					DATE,
 	@FLA					DATE,
 	@IncorporadoIAE			INT,
-	@Observaciones			VARCHAR(500)
+	@Observaciones			VARCHAR(500),
+	@success			BIT		OUTPUT
 AS
 	BEGIN		
 		IF ((SELECT COUNT(*) FROM dbo.CYE AS C WHERE C.ID = @ID_CYE_General) = 1) -- existe un CYE
@@ -843,26 +1044,36 @@ AS
 											FLA = @FLA,
 											IncorporadoIAE = @IncorporadoIAE,
 											Observaciones = @Observaciones
-										WHERE ID = @ID_CYEA;										
+										WHERE ID = @ID_CYEA;	
+										SET @success = 1
+										SELECT @success									
 									END
 								ELSE
 									BEGIN
 										RAISERROR('El CYEA que desea editar no se encuentra registrado.',16,1);
+										SET @success = 0
+										SELECT @success
 									END;
 							END
 						ELSE
 							BEGIN
 								RAISERROR('El nivel IAE que desea agregar no se encuentra registrado.',16,1);
+								SET @success = 0
+								SELECT @success
 							END;
 					END
 				ELSE
 					BEGIN
 						RAISERROR('La valoración que desea agregar no se encuentra registrada.',16,1);
+						SET @success = 0
+						SELECT @success
 					END;
 			END
 		ELSE
 			BEGIN
 				RAISERROR('El CYE que desea agregar no se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;	
 GO
@@ -870,16 +1081,21 @@ GO
 	Procedimiento almacenado encargado de la eliminación de un CYEA especifico enviando por parámetro el ID del CYEA a eliminar
 */
 CREATE PROCEDURE dbo.deleteCYEA -- listo
-	@ID_CYEA		INT
+	@ID_CYEA		INT,
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.CYEA AS C WHERE C.ID = @ID_CYEA) = 1) -- existe un CYEA
 			BEGIN
 				DELETE FROM dbo.CYEA WHERE ID = @ID_CYEA;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('El CYEA que desea eliminar no se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;	
 	END;
 GO
@@ -896,16 +1112,21 @@ GO
 CREATE PROCEDURE dbo.insertCYEA_Responsables -- listo
 	@ID_CYEA				INT,
 	@ID_Responsable			INT,
-	@TipoResponsabilidad	VARCHAR(250)
+	@TipoResponsabilidad	VARCHAR(250),
+	@success			BIT		OUTPUT
 AS 
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.CYEA_Responsables AS CR WHERE CR.ID_CYEA = @ID_CYEA AND CR.ID_Responsable = @ID_Responsable AND CR.TipoResponsabilidad = @TipoResponsabilidad) = 1) -- existe el registro
 			BEGIN 
 				RAISERROR('El dato que desea insertar ya se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 		ELSE -- no existe el registro
 			BEGIN
 				INSERT INTO dbo.CYEA_Responsables(ID_CYEA, ID_Responsable, TipoResponsabilidad)  VALUES (@ID_CYEA, @ID_Responsable, @TipoResponsabilidad);
+				SET @success = 1
+				SELECT @success
 			END;
 	END;
 GO
@@ -919,7 +1140,8 @@ CREATE PROCEDURE dbo.editCYEA_Responsables -- listo
 
 	@ID_CYEA					INT,
 	@ID_Responsable				INT,
-	@TipoResponsabilidad		VARCHAR(250)
+	@TipoResponsabilidad		VARCHAR(250),
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.CYEA_Responsables AS CR WHERE CR.ID_CYEA = @ID_CYEA_Old AND CR.ID_Responsable = @ID_Responsable_Old AND CR.TipoResponsabilidad = @TipoResponsabilidad_Old) = 1) -- existe el registro
@@ -929,10 +1151,14 @@ AS
 					ID_Responsable = @ID_Responsable,
 					TipoResponsabilidad = @TipoResponsabilidad
 				WHERE ID_CYEA = @ID_CYEA_Old AND ID_Responsable = @ID_Responsable_Old AND TipoResponsabilidad = @TipoResponsabilidad_Old;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('El dato que desea editar no se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;
 GO
@@ -942,16 +1168,21 @@ GO
 CREATE PROCEDURE dbo.deleteCYEA_Responsable -- listo
 	@ID_CYEA				INT,
 	@ID_Responsable			INT,
-	@TipoResponsabilidad	INT
+	@TipoResponsabilidad	INT,
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.CYEA_Responsables AS CR WHERE CR.ID_CYEA = @ID_CYEA AND CR.ID_Responsable = @ID_Responsable AND CR.TipoResponsabilidad = @TipoResponsabilidad) = 1) -- existe el registro
 			BEGIN 
 				DELETE FROM dbo.CYEA_Responsables WHERE ID_CYEA = @ID_CYEA AND ID_Responsable = @ID_Responsable AND TipoResponsabilidad = @TipoResponsabilidad;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE	
 			BEGIN
 				RAISERROR('El dato que desea eliminar no se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;
 GO
@@ -967,16 +1198,21 @@ GO
 */
 CREATE PROCEDURE dbo.insertAuto_CYEA
 	@ID_CYEA				INT,
-	@ID_Autoeval			INT
+	@ID_Autoeval			INT,
+	@success			BIT		OUTPUT
 AS 
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.Auto_CYEA AS CR WHERE CR.ID_CYEA = @ID_CYEA AND CR.ID_Autoeval = @ID_Autoeval) = 1) -- existe el registro
 			BEGIN 
 				RAISERROR('El dato que desea insertar ya se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 		ELSE
 			BEGIN			
 				INSERT INTO dbo.Auto_CYEA(ID_Autoeval, ID_CYEA)  VALUES (@ID_Autoeval, @ID_CYEA);
+				SET @success = 1
+				SELECT @success
 			END;
 	END;
 GO
@@ -988,7 +1224,8 @@ CREATE PROCEDURE dbo.editAuto_CYEA -- listo
 	@ID_Autoeval_Old		INT,
 
 	@ID_CYEA				INT,
-	@ID_Autoeval			INT
+	@ID_Autoeval			INT,
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.Auto_CYEA AS CR WHERE CR.ID_CYEA = @ID_CYEA_Old AND CR.ID_Autoeval = @ID_Autoeval_Old) = 1) -- existe el registro
@@ -997,10 +1234,14 @@ AS
 				SET ID_CYEA = @ID_CYEA,
 					ID_Autoeval = @ID_Autoeval
 				WHERE ID_CYEA = @ID_CYEA_Old AND ID_Autoeval = @ID_Autoeval_Old;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('El dato que desea editar no se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;	
 GO
@@ -1009,16 +1250,21 @@ GO
 */
 CREATE PROCEDURE dbo.deleteAuto_CYEA -- listo
 	@ID_CYEA				INT,
-	@ID_Autoeval			INT
+	@ID_Autoeval			INT,
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.Auto_CYEA AS CR WHERE CR.ID_CYEA = @ID_CYEA AND CR.ID_Autoeval = @ID_Autoeval) = 1) -- existe el registro
 			BEGIN
 				DELETE FROM dbo.Auto_CYEA WHERE ID_CYEA = @ID_CYEA AND ID_Autoeval = @ID_Autoeval;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('El dato que desea eliminar no se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;
 GO
@@ -1034,16 +1280,21 @@ GO
 */
 CREATE PROCEDURE dbo.insertCumplimNominal_CYEA -- listo
 	@ID_CumplimNominal		INT,
-	@ID_CYEA				INT
+	@ID_CYEA				INT,
+	@success			BIT		OUTPUT
 AS 
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.CumplimientosNominales_CYEA AS CN WHERE CN.ID_CYEA = @ID_CYEA AND CN.ID_CumplimNominal = @ID_CumplimNominal) = 1) -- existe el registro
 			BEGIN
 				RAISERROR('El dato que desea insertar ya se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				INSERT INTO dbo.CumplimientosNominales_CYEA(ID_CumplimNominal, ID_CYEA)  VALUES (@ID_CumplimNominal, @ID_CYEA);
+				SET @success = 1
+				SELECT @success
 			END;
 	END;
 GO
@@ -1055,7 +1306,8 @@ CREATE PROCEDURE dbo.editCumplimNominal_CYEA -- LISTO
 	@ID_CYEA_Old				INT,
 
 	@ID_CumplimNominal			INT,
-	@ID_CYEA					INT
+	@ID_CYEA					INT,
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.CumplimientosNominales_CYEA AS CN WHERE CN.ID_CYEA = @ID_CYEA_Old AND CN.ID_CumplimNominal = @ID_CumplimNominal_Old) = 1) -- existe el registro
@@ -1064,10 +1316,14 @@ AS
 				SET ID_CumplimNominal = @ID_CumplimNominal,
 					ID_CYEA = @ID_CYEA
 				WHERE ID_CYEA = @ID_CYEA_Old AND ID_CumplimNominal = @ID_CumplimNominal_Old;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('El dato que desea editar no se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;
 GO
@@ -1076,16 +1332,21 @@ GO
 */
 CREATE PROCEDURE dbo.deleteCumplimNominal_CYEA -- LISTO
 	@ID_CumplimNominal		INT,
-	@ID_CYEA				INT
+	@ID_CYEA				INT,
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.CumplimientosNominales_CYEA AS CN WHERE CN.ID_CYEA = @ID_CYEA AND CN.ID_CumplimNominal = @ID_CumplimNominal) = 1) -- existe el registro
 			BEGIN
 				DELETE FROM dbo.CumplimientosNominales_CYEA WHERE ID_CYEA = @ID_CYEA AND ID_CumplimNominal = @ID_CumplimNominal;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('El dato que desea eliminar no se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;
 GO
@@ -1101,16 +1362,21 @@ GO
 */
 CREATE PROCEDURE dbo.insertCYEA_Evidencia -- LISTO
 	@ID_CYEA			INT,
-	@ID_Evidencia		INT
+	@ID_Evidencia		INT,
+	@success			BIT		OUTPUT
 AS 
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.CYEA_Evidencias AS CN WHERE CN.ID_CYEA = @ID_CYEA AND CN.ID_Evidencia = @ID_Evidencia) = 1) -- existe el registro
 			BEGIN
 				RAISERROR('El dato que desea insertar ya se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				INSERT INTO dbo.CYEA_Evidencias(ID_CYEA	, ID_Evidencia)  VALUES (@ID_CYEA, @ID_Evidencia);
+				SET @success = 1
+				SELECT @success
 			END;
 	END;
 GO
@@ -1122,7 +1388,8 @@ CREATE PROCEDURE dbo.editCYEA_Evidencia
 	@ID_Evidencia_Old	INT,
 
 	@ID_CYEA			INT,
-	@ID_Evidencia		INT
+	@ID_Evidencia		INT,
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.CYEA_Evidencias AS CN WHERE CN.ID_CYEA = @ID_CYEA_Old AND CN.ID_Evidencia = @ID_Evidencia_Old) = 1) -- existe el registro
@@ -1131,10 +1398,14 @@ AS
 				SET ID_CYEA = @ID_CYEA,
 					ID_Evidencia = @ID_Evidencia
 				WHERE ID_CYEA = @ID_CYEA_Old AND ID_Evidencia = @ID_Evidencia_Old;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN	
 				RAISERROR('El dato que desea editar no se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;
 GO
@@ -1143,16 +1414,21 @@ GO
 */
 CREATE PROCEDURE dbo.deleteCYEA_Evidencia
 	@ID_CYEA			INT,
-	@ID_Evidencia		INT
+	@ID_Evidencia		INT,
+	@success			BIT		OUTPUT
 AS
 	BEGIN
 		IF ((SELECT COUNT(*) FROM dbo.CYEA_Evidencias AS CN WHERE CN.ID_CYEA = @ID_CYEA AND CN.ID_Evidencia = @ID_Evidencia) = 1) -- existe el registro
 			BEGIN
 				DELETE FROM dbo.CYEA_Evidencias WHERE ID_CYEA = @ID_CYEA AND ID_Evidencia = @ID_Evidencia;
+				SET @success = 1
+				SELECT @success
 			END;
 		ELSE
 			BEGIN
 				RAISERROR('El dato que desea eliminar no se encuentra registrado.',16,1);
+				SET @success = 0
+				SELECT @success
 			END;
 	END;
 GO
