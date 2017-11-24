@@ -6,7 +6,7 @@ GO
 CREATE TABLE Componentes(
 	ID				INT	IDENTITY(1,1)	NOT NULL,
 	ID_Dimension	INT					NOT NULL,
-	Componente		VARCHAR(50)			NOT NULL	UNIQUE,
+	Componente		VARCHAR(50)			UNIQUE,
 	CONSTRAINT PK_Componentes_ID		PRIMARY KEY CLUSTERED (ID),
 
 	CONSTRAINT FK_Componentes_ID_Dimension	FOREIGN KEY (ID_Dimension) 
