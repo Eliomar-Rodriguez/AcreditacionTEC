@@ -9,15 +9,15 @@ angular.module("acreditacion",['ngRoute','LocalStorageModule'])
     })
      .when('/main',{
         controller: "main_Controller",
-        templateUrl: "templates/main_page.html"
+        templateUrl: "../templates/main_page.html"
     })
     .when('/dimensiones', {
         controller: "Dimensiones",
-        templateUrl: "templates/dimensiones.html"
+        templateUrl: "../templates/dimensiones.html"
     })
     .when('/CriteriosYEstandares',{
         controller: "CriteriosYEstandares",
-        templateUrl: "templates/CYE.html"
+        templateUrl: "../templates/CYE.html"
     })
     .otherwise({
         redirectTo: '/'
