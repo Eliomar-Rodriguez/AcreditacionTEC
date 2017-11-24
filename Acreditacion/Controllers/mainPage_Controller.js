@@ -2,6 +2,6 @@
 
 angular.module("acreditacion")
 
-.controller("acreditacion",function($scope){
+.controller("main_Controller",function($scope){
     $scope.mensaje="Texto cargado desde el controlador Main";
 });

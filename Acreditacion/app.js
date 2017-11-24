@@ -3,8 +3,13 @@
 angular.module("acreditacion",['ngRoute','LocalStorageModule'])
 
 .config(['$routeProvider',function($routeProvider){
-    $routeProvider.when('/',{
-        controller: "acreditacion"
+    $routeProvider.when('/logIn',{
+        controller:"login_Controller"
+
+    })
+     .when('/main',{
+        controller: "main_Controller",
+        templateUrl: "templates/main_page.html"
     })
     .when('/dimensiones', {
         controller: "Dimensiones",
