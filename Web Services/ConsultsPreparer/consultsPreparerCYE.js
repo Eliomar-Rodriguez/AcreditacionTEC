@@ -12,7 +12,7 @@ var sqlConection = require('../ConexionDBs/sqlConection.js');
 ===========================
 */
 exports.insertCYE = function insertCYE(datos, callback) {
-    var request = new Request('insertDimension', function(err) { // nombre de procedimiento en la base de datos
+    var request = new Request('insertCYE', function(err) { // nombre de procedimiento en la base de datos
         if (err) {
             callback({
                 success: false,
@@ -23,7 +23,9 @@ exports.insertCYE = function insertCYE(datos, callback) {
             })
         }
     });
-    request.addParameter('NombreDimension', TYPES.VarChar, datos.Dimension);
+    request.addParameter('ID_Componente', TYPES.Int, datos.ID_Componente);
+    request.addParameter('ID_Carrera', TYPES.Int, datos.ID_Carrera);
+    request.addParameter('Criterio', TYPES.VarChar, datos.Criterio);
 
     request.addOutputParameter('success', TYPES.Bit);
     
@@ -32,8 +34,7 @@ exports.insertCYE = function insertCYE(datos, callback) {
     });
 }
 
-exports.selectCYE = function(callback) {   
-    console.log('Preparar consulta'); 
+exports.selectCYE = function(callback) {  
     var query = "SELECT * FROM CYE"; //Agregar procedimiento almacenado para esta consulta
     var request = new Request(query, function(err) {
         if (err) {
@@ -52,7 +53,7 @@ exports.selectCYE = function(callback) {
 }
 
 exports.editCYE = function editCYE(datos, callback) {
-    var request = new Request('editDimension', function(err) {
+    var request = new Request('editCYE', function(err) {
         if (err) {
             callback({
                 success: false,
@@ -64,8 +65,10 @@ exports.editCYE = function editCYE(datos, callback) {
         }
     });
 
-    request.addParameter('ID_Dimension', TYPES.Int, datos.ID);
-    request.addParameter('nombreDimension', TYPES.VarChar, datos.nombreDimension);
+    request.addParameter('ID_CYE', TYPES.Int, datos.ID);
+    request.addParameter('ID_Componente', TYPES.Int, datos.ID_Componente);
+    request.addParameter('ID_Carrera', TYPES.Int, datos.ID_Carrera);
+    request.addParameter('Criterio', TYPES.VarChar, datos.Criterio);
     
     request.addOutputParameter('success', TYPES.Bit);
 
@@ -73,7 +76,7 @@ exports.editCYE = function editCYE(datos, callback) {
 };
 // DELETE 
 exports.deleteCYE = function deleteCYE(datos, callback) {
-    var request = new Request('deleteDimension', function(err) {
+    var request = new Request('deleteCYE', function(err) {
         if (err) {
             msg = (request.error == 1) ? "Error de conexión" : "No se puede eliminar la dimensión";
             callback({
@@ -85,7 +88,7 @@ exports.deleteCYE = function deleteCYE(datos, callback) {
             })
         }
     });
-    request.addParameter('ID_Dimension', TYPES.Int, datos.ID);
+    request.addParameter('ID_CYE', TYPES.Int, datos.ID);
     
     request.addOutputParameter('success', TYPES.Bit);
 

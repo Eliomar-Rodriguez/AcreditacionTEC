@@ -65,7 +65,7 @@ exports.editDimension = function editDimension(datos, callback) {
     });
 
     request.addParameter('ID_Dimension', TYPES.Int, datos.ID);
-    request.addParameter('nombreDimension', TYPES.VarChar, datos.nombreDimension);
+    request.addParameter('nombreDimension', TYPES.VarChar, datos.Dimension);
     
     request.addOutputParameter('success', TYPES.Bit);
 

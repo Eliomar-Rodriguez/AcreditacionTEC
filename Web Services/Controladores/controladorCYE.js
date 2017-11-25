@@ -6,13 +6,13 @@
 var logicaCYE = require('../Logica/logicaCYE.js');
 
 exports.insertCYE = function(rRequest, rResponse){
-    logicaCYE.insertarCYE(rRequest.query, function(data){
+    logicaCYE.insertarCYE(rRequest.body, function(data){
         rResponse.send(data);
     })
 };
 
 exports.editCYE = function(rRequest, rResponse){
-    logicaCYE.editarCYE(rRequest.query, function(data){
+    logicaCYE.editarCYE(rRequest.body, function(data){
         rResponse.send(data);
     });
 };

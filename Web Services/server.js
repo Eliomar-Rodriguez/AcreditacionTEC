@@ -18,7 +18,7 @@ var CYECtrl = require('./Controladores/controladorCYE'); // controlador de Dimen
 >  Configuraciones principales del servidor, con esto escucha las peticiones  <
 ===============================================================================
 */
-bodyParser = require('body-parser');
+var bodyParser = require('body-parser');
 var express = require('express'),
     app = express(),
     server = require('http').createServer(app),
@@ -28,7 +28,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
 
-app.use('/', express.static(__dirname + '/Web Service/'));
+app.use('/', express.static(__dirname + '/"Web Services"'));
+
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -47,8 +48,8 @@ app.use(function(req, res, next) {
 */
 app.post('/insertComponente', componenteCtrl.insertComponente);
 app.get('/selectComponentes', componenteCtrl.selectComponente);
-app.post('/editComponente', componenteCtrl.editComponente);
-app.post('/deleteComponente', componenteCtrl.deleteComponente);
+app.put('/editComponente', componenteCtrl.editComponente);
+app.delete('/deleteComponente', componenteCtrl.deleteComponente);
 
 /*
 ==================================
@@ -57,8 +58,8 @@ app.post('/deleteComponente', componenteCtrl.deleteComponente);
 */
 app.post('/insertDimension', dimensionCtrl.insertDimension);
 app.get('/selectDimensiones', dimensionCtrl.selectDimension);
-app.post('/editDimension', dimensionCtrl.editDimension);
-app.post('/deleteDimension', dimensionCtrl.deleteDimension);
+app.put('/editDimension', dimensionCtrl.editDimension);
+app.delete('/deleteDimension', dimensionCtrl.deleteDimension);
 
 /*
 ==================================
@@ -67,9 +68,8 @@ app.post('/deleteDimension', dimensionCtrl.deleteDimension);
 */
 app.post('/insertCYE', CYECtrl.insertCYE);
 app.get('/selectCYE', CYECtrl.selectCYE);
-app.post('/editCYE', CYECtrl.editCYE);
-app.post('/deleteCYE', CYECtrl.deleteCYE);
-console.log("algo");
+app.put('/editCYE', CYECtrl.editCYE);
+app.delete('/deleteCYE', CYECtrl.deleteCYE);
 /*
 ==================================================================================
 >  Pone el servidor en escucha de peticiones,lo levanta en el puerto requerido.  <

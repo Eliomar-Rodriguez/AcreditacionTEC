@@ -23,8 +23,8 @@ exports.insertComponente = function insertComponente(datos, callback) {
             })
         }
     });
-    request.addParameter('Componente', TYPES.VarChar, datos.Componente);
     request.addParameter('ID_Dimension', TYPES.Int, datos.ID_Dimension);
+    request.addParameter('Componente', TYPES.VarChar, datos.Componente);
     request.addOutputParameter('success', TYPES.Bit);
     
     sqlConection.callProcedure(request, function(res) {
@@ -64,7 +64,7 @@ exports.editComponente = function editComponente(datos, callback) {
 
     request.addParameter('ID_Componente', TYPES.Int, datos.ID);
     request.addParameter('ID_Dimension', TYPES.Int, datos.ID_Dimension);
-    request.addParameter('nombreComponente', TYPES.VarChar, datos.nombreComponente);
+    request.addParameter('nombreComponente', TYPES.VarChar, datos.Componente);
 
     request.addOutputParameter('success', TYPES.Bit);
 

@@ -4,11 +4,11 @@
 ===============================================================================================
 */
 
-var consultsPreparer = require('../ConsultsPreparer/consultsPreparerComponente.js');
+var consultsPreparerComponente = require('../ConsultsPreparer/consultsPreparerComponente.js');
 
 // inserta componentes
 exports.insertarComponente = function(datos, callback) {
-    consultsPreparer.insertComponente(datos, function(response) {
+    consultsPreparerComponente.insertComponente(datos, function(response) {
         msg = (response.error == 1) ? "Error de conexión" : "No se pudo insertar el componente";
         if (response.success) {
             callback({
@@ -32,7 +32,7 @@ exports.insertarComponente = function(datos, callback) {
 
 // seleccionar componentes
 exports.seleccionarComponente = function(callback) {
-    consultsPreparer.selectComponente( function(response) {
+    consultsPreparerComponente.selectComponente( function(response) {
         if (response.success) {
             msg = (response.error == 1) ? "Error de conexión" : "No se pudo seleccionar los componentes";
             callback({
@@ -51,7 +51,7 @@ exports.seleccionarComponente = function(callback) {
 
 // editar componentes
 exports.editarComponente = function(datos, callback) {
-    consultsPreparer.editComponente(datos, function(response) {
+    consultsPreparerComponente.editComponente(datos, function(response) {
         msg = (response.error === 1) ? "Error de conexión" : "No se pudo modificar el componente";
         if (response.success) {
             callback({
@@ -75,7 +75,7 @@ exports.editarComponente = function(datos, callback) {
 
 // eliminar componentes
 exports.eliminarComponente = function(datos, callback) {
-    consultsPreparer.deleteComponente(datos, function(response) {
+    consultsPreparerComponente.deleteComponente(datos, function(response) {
         msg = (response.error === 1) ? "Error de conexión" : "No se puede eliminar el componente";
         if (response.success) {
             callback({
@@ -88,7 +88,6 @@ exports.eliminarComponente = function(datos, callback) {
         } else {
             callback({
                 success: false,
-                data: [],
                 error: response.error,
                 title: "Error",
                 message: msg,

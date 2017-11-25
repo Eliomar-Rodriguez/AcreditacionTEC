@@ -6,26 +6,25 @@
 var logicaComponente = require('../Logica/logicaComponentes.js');
 
 exports.insertComponente = function(rRequest, rResponse){
-    logicaComponente.insertarComponente(rRequest.query, function(data){
+    logicaComponente.insertarComponente(rRequest.body, function(data){
         rResponse.send(data);
     })
 };
 
 exports.editComponente = function(rRequest, rResponse){
-    logicaComponente.editarComponente(rRequest.query, function(data){
+    logicaComponente.editarComponente(rRequest.body, function(data){
         rResponse.send(data);
     });
 };
 
 exports.selectComponente = function(rRequest, rResponse){
-    logicaComponente.seleccionarComponente(function(data){
+    logicaComponente.seleccionarComponente(rRequest.body, function(data){
         rResponse.send(data.data);
     })
 };
 
 exports.deleteComponente = function(rRequest, rResponse){
-    console.log("Controlador"+rRequest.query)
-    logicaComponente.eliminarComponente(rRequest.query, function(data){
+    logicaComponente.eliminarComponente(rRequest.body, function(data){
         rResponse.send(data);
     });
 };

@@ -6,13 +6,13 @@
 var logicaDimension = require('../Logica/logicaDimensiones.js');
 
 exports.insertDimension = function(rRequest, rResponse){
-    logicaDimension.insertarDimension(rRequest.query, function(data){
+    logicaDimension.insertarDimension(rRequest.body, function(data){
         rResponse.send(data);
     })
 };
 
 exports.editDimension = function(rRequest, rResponse){
-    logicaDimension.editarDimension(rRequest.query, function(data){
+    logicaDimension.editarDimension(rRequest.body, function(data){
         rResponse.send(data);
     });
 };
@@ -24,7 +24,8 @@ exports.selectDimension = function(rRequest, rResponse){
 };
 
 exports.deleteDimension = function(rRequest, rResponse){
-    logicaDimension.eliminarDimension(rRequest.query, function(data){
+    console.log(rRequest.body);
+    logicaDimension.eliminarDimension(rRequest.body, function(data){
         rResponse.send(data);
     });
 };

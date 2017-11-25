@@ -4,11 +4,11 @@
 ===============================================================================================
 */
 
-var consultsPreparerCYE = require('../ConsultsPreparer/consultsPreparerCYE');
+var consultsPreparerCYE = require('../ConsultsPreparer/consultsPreparerCYE.js');
 
 // inserta CYE
 exports.insertarCYE = function(datos, callback) {
-    consultsPreparerCYE.insertarCYE(datos, function(response) {
+    consultsPreparerCYE.insertCYE(datos, function(response) {
         msg = (response.error == 1) ? "Error de conexión" : "No se pudo insertar el CYE";
         if (response.success) {
             callback({
