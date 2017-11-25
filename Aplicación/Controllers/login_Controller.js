@@ -22,8 +22,40 @@ angular.module("acreditacion")
         return factory;
     })
     .controller("login_Controller",function ($scope,$http,$location) {
+        var persona =  [
+            {
+                email : "oscarlopez@gmail.com",
+                nombrePersona : "Oscar Lopez",
+                password : 12345
+            },
+            {
+                email:  "j-david-10@hotmail.com",
+                nombrePersona : "Josue Arce",
+                password : 54321
+            }
+        ];
+        localStorage.setItem("listaUsuarios",JSON.stringify(persona));
+
+        function moverOtraVentana(newPath){
+            $location.path(newPath);
+        }
         $("#button_aceptar").click(function () {
-            alert($scope.input_email);
+            let lista = JSON.parse(localStorage.getItem("listaUsuarios"));
+            if($("#input_email").val() != "" && $("#input_password").val() != ""){
+                for(item in lista){
+                    if(lista[item].email == $("#input_email").val() && lista[item].password == $("#input_password").val()){
+                        swal("Inicio sesión correcto!!", "Bienvenido.", "success");
+                        window.location.href="templates/main_page.html";
+                    }
+                    else{
+                        swal("Error!!", "Este usuario no existe!.", "error");
+                    }
+                }
+            }
+            else {
+                swal("Alerta!", "Ingrese sus credenciales primero!.", "error");
+            }
+
         });
     })
 ;

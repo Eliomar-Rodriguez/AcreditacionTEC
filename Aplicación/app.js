@@ -4,8 +4,8 @@ angular.module("acreditacion",['ngRoute','LocalStorageModule'])
 
 .config(['$routeProvider',function($routeProvider){
     $routeProvider.when('/logIn',{
-        controller:"login_Controller"
-
+        controller:"login_Controller",
+        templateUrl: "index.html"
     })
      .when('/main',{
         controller: "main_Controller",
