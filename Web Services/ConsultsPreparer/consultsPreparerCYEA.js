@@ -4,18 +4,15 @@ var sqlConection = require('../ConexionDBs/sqlConection.js');
 
 /*
 ===========================
->  CRUD's de CYE          <
+>  CRUD's de CYEA          <
 >   - insert              <
 >   - select              <
 >   - edit                <
 >   - delete              <
 ===========================
 */
-/**
- * AGREGAR CARRERA PARA PROYECTO REAL
- */
-exports.insertCYE = function insertCYE(datos, callback) {
-    var request = new Request('insertCYE', function(err) { // nombre de procedimiento en la base de datos
+exports.insertCYEA = function insertCYEA(datos, callback) {
+    var request = new Request('insertCYEA', function(err) { // nombre de procedimiento en la base de datos
         if (err) {
             callback({
                 success: false,
@@ -26,8 +23,10 @@ exports.insertCYE = function insertCYE(datos, callback) {
             })
         }
     });
-    request.addParameter('ID_Componente', TYPES.Int, datos.ID_Componente);
-    request.addParameter('Criterio', TYPES.VarChar, datos.Criterio);
+    request.addParameter('ID_CYE_General', TYPES.Int, datos.ID_CYE);
+    request.addParameter('ID_Responsable', TYPES.Int, datos.ID_Responsable);
+    request.addParameter('CriterioAjustado', TYPES.VarChar, datos.CriterioAjustado);
+    request.addParameter('FLOC', TYPES.Date, datos.Fecha);
 
     request.addOutputParameter('success', TYPES.Bit);
     
@@ -36,8 +35,8 @@ exports.insertCYE = function insertCYE(datos, callback) {
     });
 }
 
-exports.selectCYE = function(callback) {  
-    var query = "SELECT * FROM CYE"; //Agregar procedimiento almacenado para esta consulta
+exports.selectCYEA = function(callback) {  
+    var query = "SELECT * FROM CYEA"; //Agregar procedimiento almacenado para esta consulta
     var request = new Request(query, function(err) {
         if (err) {
             callback({
@@ -54,8 +53,8 @@ exports.selectCYE = function(callback) {
     sqlConection.executeRequest(request, callback); 
 }
 
-exports.editCYE = function editCYE(datos, callback) {
-    var request = new Request('editCYE', function(err) {
+exports.editCYEA = function editCYEA(datos, callback) {
+    var request = new Request('editCYEA', function(err) {
         if (err) {
             callback({
                 success: false,
@@ -67,17 +66,21 @@ exports.editCYE = function editCYE(datos, callback) {
         }
     });
 
-    request.addParameter('ID_CYE', TYPES.Int, datos.ID);
-    request.addParameter('ID_Componente', TYPES.Int, datos.ID_Componente);
-    request.addParameter('Criterio', TYPES.VarChar, datos.Criterio);
+    request.addParameter('ID_CYEA', TYPES.Int, datos.ID);
+    request.addParameter('ID_CYE_General', TYPES.Int, datos.ID_CYE);
+    request.addParameter('ID_Responsable', TYPES.Int, datos.ID_Responsable);
+    request.addParameter('Valoracion', TYPES.Int, datos.Valoracion);
+    request.addParameter('FLOC', TYPES.Date, datos.Fecha);
+    request.addParameter('CriterioAjustado', TYPES.VarChar, datos.CriterioAjustado);
+    request.addParameter('Observaciones', TYPES.VarChar, datos.Observaciones);
     
     request.addOutputParameter('success', TYPES.Bit);
 
     sqlConection.callProcedure(request, callback);
 };
 // DELETE 
-exports.deleteCYE = function deleteCYE(datos, callback) {
-    var request = new Request('deleteCYE', function(err) {
+exports.deleteCYEA = function deleteCYEA(datos, callback) {
+    var request = new Request('deleteCYEA', function(err) {
         if (err) {
             msg = (request.error == 1) ? "Error de conexión" : "No se puede eliminar la dimensión";
             callback({
@@ -89,7 +92,7 @@ exports.deleteCYE = function deleteCYE(datos, callback) {
             })
         }
     });
-    request.addParameter('ID_CYE', TYPES.Int, datos.ID);
+    request.addParameter('ID_CYEA', TYPES.Int, datos.ID);
     
     request.addOutputParameter('success', TYPES.Bit);
 

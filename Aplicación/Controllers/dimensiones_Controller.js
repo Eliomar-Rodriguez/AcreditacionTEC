@@ -147,7 +147,7 @@ angular.module("acreditacion")
             let contador_registros = 0;
             $scope.lista_filtrada_dimensiones = [];
             while(posicion_actual < $scope.listaDimensiones.length){
-                if(contador_registros == 4){
+                if(contador_registros === 4){
                     break;
                 }
                 $scope.lista_filtrada_dimensiones.push($scope.listaDimensiones[posicion_actual]);

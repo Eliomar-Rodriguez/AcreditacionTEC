@@ -24,7 +24,6 @@ exports.selectDimension = function(rRequest, rResponse){
 };
 
 exports.deleteDimension = function(rRequest, rResponse){
-    console.log(rRequest.body);
     logicaDimension.eliminarDimension(rRequest.body, function(data){
         rResponse.send(data);
     });

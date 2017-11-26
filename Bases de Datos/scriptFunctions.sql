@@ -58,7 +58,7 @@ GO
 	dimensión a eliminar
 */
 CREATE PROCEDURE dbo.deleteDimension -- LISTO
-	@ID_Dimension	INT,
+	@ID_Dimension		INT,
 	@success			BIT		OUTPUT
 AS
 	BEGIN
