@@ -19,6 +19,10 @@ angular.module("acreditacion",['ngRoute','LocalStorageModule'])
         controller: "CriteriosYEstandares",
         templateUrl: "../templates/CYE.html"
     })
+    .when('/CYEAjustados',{
+        controller: "CYE_Ajustados",
+        templateUrl:"../templates/CYE_Ajustados.html"
+    })
     .otherwise({
         redirectTo: '/'
   }); 

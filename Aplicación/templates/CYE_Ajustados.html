@@ -1,0 +1,106 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="card">
+        <div class="header">
+            <h4 class="card-title">Criterios y Estándares Ajustados</h4>
+        </div>
+        <div class="body">
+            <div class="dataTables_wrapper form-inline dt-bootstrap">
+                <div class="row">
+                    <!--BOTONES ACCIONES-->
+                    <div class="col-sm-6">
+                        <div class="col-sm-6">
+                            <button class="btn" style="width: 100%;background-color: #000033;color: white"
+                                    data-toggle="modal" data-target="#modal_Add_Register">
+                                Crear Nuevo Registro
+                            </button>
+                        </div>
+                    </div>
+                    <!--END BOTONES ACCIONES-->
+                    <!--INPUT SEARCH-->
+                    <div class="col-sm-6" >
+                        <div class="dataTables_filter">
+                            <input type="search" class="form-control input-sm" style="width: 100%;"
+                                   placeholder="Buscar">
+                        </div>
+                    </div>
+                    <!--END INPUT SEARCH-->
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table  class="table table-hover dataTable table-responsive" id="dataTableDimensiones" style="overflow: auto">
+                            <thead>
+                            <tr role="row">
+                                <th>#</th>
+                                <th>Criterio y Estándar Ajustado</th>
+                                <th>Acción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr role="row" class="odd" ng-repeat="item in lista_filtrada_dimensiones | limitTo : 4">
+                                <td>{{$index + 1}}</td>
+                                <td>{{item.Dimension}}</td>
+                                <td>
+                                    <a data-toggle="modal" data-target="#modalEditDimension" ng-click="openModalEdit(item.ID)" style="color: darkblue">EDITAR</a> |
+                                    <a  ng-click="deleteDimension(item.ID)" style="color: red;">ELIMINAR</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="footer">
+
+        </div>
+    </div>
+</div>
+
+<!--START MODAL ADD DIMENSION-->
+<div class="container-fluid">
+    <div class="modal fade" id="modal_Add_Register" tabindex="-1" role="dialog" aria-labelledby="modal_Add_Register" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajustar Criterio y Estándar</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row clearfix">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="select_cye_available">Criterios y Estándares Disponibles</label>
+                                <select class="form-control" id="select_cye_available" ng-model="selected_cye_option">
+                                    <option ng-repeat="item in lista_cye_available">{{item.Nombre}}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6 ">
+                                <label for="input_cye_ajustado">Criterio y Estándar Ajustado</label>
+                                <input type="text" class="form-control input-sm" id="input_cye_ajustado" ng-model="input_cye_ajustado">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="select_available_responsables">Responsable</label>
+                                <select class="form-control" id="select_available_responsables" ng-model="selected_responsable">
+                                    <option ng-repeat="item in lista_responsables">{{item.Nombre_Responsable}}</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="date_fecha_limite">Fecha Limite</label>
+                                <input class="form-control" type="date" id="date_fecha_limite" ng-model="date_fecha_limite">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"  ng-click="()" id="button_save_cye_ajustado">
+                        Agregar Dimensión
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--END MODAL ADD DIMENSION-->

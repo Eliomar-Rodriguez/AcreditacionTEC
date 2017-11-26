@@ -18,7 +18,7 @@ angular.module("acreditacion")
                 $http({
                     method : "POST",
                     url: "http://172.24.42.4:8080/deleteDimension",
-                    data : objetoDimension
+                    data: objetoDimension
                 }).then(function successCallback(response) {
                     $.notify("Registro eliminado!","success");
                 }).catch(function errorCallback(response) {
@@ -75,8 +75,13 @@ angular.module("acreditacion")
         $scope.select_available_components = ""; //OBTIENE EL VALOR DEL ITEM SELECCIONADO DE LA LISTA DE COMPONENTES DISPONIBLES
         $scope.select_selected_component = ""; //GUARDA EL VALOR DEL ITEM SELECCIONADO DE LA LISTA DE COMPONENTES SELECCIONADOS
         $scope.cantidad_registros_mostrados = 4; //HACE REFERENCIA A CUANTOS REGISTROS PUEDE MOSTRAR EN LA TABLA
-        let posicion_actual = 4; // POSICIÓN DONDE SE ENCUENTRA ACTUALMENTE EN LA LISTA DE DIMENSIONES
+        let posicion_actual = 0; // POSICIÓN DONDE SE ENCUENTRA ACTUALMENTE EN LA LISTA DE DIMENSIONES
+        let posicion_final = 3; //POSICION FINAL DEL RANGO DE REGISTROS A DESPLEGAR
         $scope.lista_filtrada_dimensiones = [];
+        $scope.dimension_actual = {
+            nombre_dimension : "",
+            ID : 0
+        };
 
         /*------------------------------MÉTODOS----------------------------------------------*/
         /*Se ejecuta cuando se llama el controlador, es el primer método que se va ejecutar*/
@@ -90,47 +95,28 @@ angular.module("acreditacion")
         /*Se ejecuta cuando se intenta crear una nueva dimensión*/
         $scope.createDimension = function () {
             if($scope.input_dimension_name != ""){
-                if($scope.selectedComponents.length != 0){
-                    swal({
-                            title: "Aceptar",
-                            text: "Se registrará un nueva dimensión!",
-                            type: "warning",
-                            showCancelButton: true,
-                            confirmButtonClass: "btn-primary",
-                            confirmButtonText: "Sí, Crearlo!",
-                            cancelButtonText: "No, Cancelar!",
-                            cancelButtonClass:"btn-danger",
-                            closeOnConfirm: false,
-                            closeOnCancel: false
-                        },
-                        function(isConfirm) {
-                            if (isConfirm) {
+                swal({
+                        title: "Alerta",
+                        text: "Seguro que desea insertar? ",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-primary",
+                        confirmButtonText: "Sí, Crearlo!",
+                        cancelButtonText: "No, Cancelar!",
+                        cancelButtonClass:"btn-danger",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function(isConfirm) {
+                        FactoryDimensions.insertData({Dimension:$scope.input_dimension_name});
+                        $("#modalAddDimension").modal("hide");
+                        FactoryDimensions.getAllData(function (result) {
+                            $scope.listaDimensiones = result;
+                            $scope.lista_filtrada_dimensiones = result;
+                        });
+                    }
+                );
 
-                            } else {
-                                swal("Cancelado", "Operación cancelada", "error");
-                            }
-                        }
-                    );
-                }
-                else{
-                    swal({
-                            title: "Alerta",
-                            text: "Seguro que desea insertar? No se han seleccionado componentes!",
-                            type: "warning",
-                            showCancelButton: true,
-                            confirmButtonClass: "btn-primary",
-                            confirmButtonText: "Sí, Crearlo!",
-                            cancelButtonText: "No, Cancelar!",
-                            cancelButtonClass:"btn-danger",
-                            closeOnConfirm: false,
-                            closeOnCancel: false
-                        },
-                        function(isConfirm) {
-                            FactoryDimensions.insertData({Dimension:$scope.input_dimension_name});
-                            $("#modalAddDimension").modal("hide");
-                        }
-                    );
-                }
             }
             else{
                 $.notify("Ingrese un nombre válido!","error");
@@ -139,29 +125,87 @@ angular.module("acreditacion")
 
         /*Permite eliminar una dimensión de la base de datos, se llama al end-point*/
         $scope.deleteDimension = function (idDimension) {
-            FactoryDimensions.deleteData({ID : idDimension});
+            FactoryDimensions.deleteData({ID: idDimension});
+            FactoryDimensions.getAllData(function (result) {
+                $scope.listaDimensiones = result;
+                $scope.lista_filtrada_dimensiones = result;
+            });
         };
 
+        $scope.openModalEdit = function (objeto) {
+            $scope.dimension_actual.ID = objeto.ID;
+            $scope.dimension_actual.nombre_dimension = objeto.Dimension;
+        };
 
-        function next_rows() {debugger;
-            let contador_registros = 0;
+        $scope.editDimension = function () {
+            FactoryDimensions.editData({
+                ID : $scope.dimension_actual.ID,
+                Dimension : $scope.dimension_actual.nombre_dimension
+            });
+            $("#modalEditDimension").modal("hide");
+        };
+
+        function desplazar_lista(posInicial,posFinal) {
             $scope.lista_filtrada_dimensiones = [];
-            while(posicion_actual < $scope.listaDimensiones.length){
-                if(contador_registros == 4){
-                    break;
-                }
-                $scope.lista_filtrada_dimensiones.push($scope.listaDimensiones[posicion_actual]);
-                posicion_actual++;
-                contador_registros++;
+            for(let item = posInicial; item < posFinal;item++){
+                $scope.lista_filtrada_dimensiones.push($scope.listaDimensiones[item]);
             }
         }
-        function back_rows() {
-            let contador_registros = 1;
 
+        function next_rows() {
+            posicion_final++;
+            posicion_actual = posicion_final;debugger;
+            let contador = 0;
+            while(posicion_final < $scope.listaDimensiones.length){
+                if(contador==4){
+                    break;
+                }
+                contador++;
+                posicion_final++;
+            }
+            desplazar_lista(posicion_actual,posicion_final);
+            posicion_actual = posicion_final;
+
+            if(posicion_actual == $scope.listaDimensiones.length){
+                $("#button_next_rows").attr("disabled",true);
+            }
+            else if(posicion_actual != 0){
+                $("#button_last_rows").attr("disabled",false);
+            }
+        }
+        function back_rows() {debugger;
+            let posFinal = posicion_actual;
+            let contador = 0;
+            while(posicion_actual != 0){
+                if(contador == 4){
+                    break;
+                }
+                contador++;
+                posicion_actual--;
+            }
+            desplazar_lista(posicion_actual,posFinal);
+
+
+            if(posicion_actual != $scope.listaDimensiones.length){
+                $("#button_next_rows").attr("disabled",false);
+            }
+            if(posicion_actual == 0){
+                $("#button_last_rows").attr("disabled",true);
+            }
         }
 
         $scope.nextData = function () {
-            next_rows();
-        }
+            if(posicion_actual != $scope.listaDimensiones.length){
+                next_rows();
+            }
+        };
+        $scope.backData = function () {
+            if(posicion_actual != 0){
+                back_rows();
+            }
+
+        };
+
+
     })
 ;

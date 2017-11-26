@@ -26,7 +26,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Criterios y Estándares</th>
-                                <th>Dimensiones</th>
+                                <th>Componente Asociado</th>
                                 <th>Acción</th>
                             </tr>
                         </thead>
@@ -34,11 +34,7 @@
                             <tr ng-repeat="item in listaCYE">
                                 <td>{{$index + 1}}</td>
                                 <td>{{item.nombreCYE}}</td>
-                                <td>
-                                    <select ng-model="cyeSelected">
-                                        <option ng-repeat="dimension in item.listaDimensiones">{{dimension.nombreDimension}}</option>
-                                    </select>
-                                </td>
+                                <td>{{item.componente_asociado}}</td>
                                 <td>
                                     <a style="background-color: blue">EDITAR</a> |
                                     <a style="background-color: red">ELIMINAR</a>
