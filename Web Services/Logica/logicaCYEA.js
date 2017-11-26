@@ -1,21 +1,21 @@
 /*
 ===============================================================================================
->  BackEnd de Componentes, se encarga de realizar las llamadas necesarias a la base de datos  <
+>     BackEnd de CYE, se encarga de realizar las llamadas necesarias a la base de datos       <
 ===============================================================================================
 */
 
-var consultsPreparerComponente = require('../ConsultsPreparer/consultsPreparerComponente.js');
+var consultsPreparerCYEA = require('../ConsultsPreparer/consultsPreparerCYEA.js');
 
-// inserta componentes
-exports.insertarComponente = function(datos, callback) {
-    consultsPreparerComponente.insertComponente(datos, function(response) {
-        msg = (response.error == 1) ? "Error de conexión" : "No se pudo insertar el componente";
+// inserta CYEA
+exports.insertarCYEA = function(datos, callback) {
+    consultsPreparerCYEA.insertCYEA(datos, function(response) {
+        msg = (response.error == 1) ? "Error de conexión" : "No se pudo insertar el CYEA";
         if (response.success) {
             callback({
                 success: true,
                 error: response.error,
-                title: "Componente agregado",
-                message: "Componente agregado con exito",
+                title: "CYEA agregado",
+                message: "CYEA agregado con exito",
                 type: "success"
             })
         } else {
@@ -30,15 +30,13 @@ exports.insertarComponente = function(datos, callback) {
     });
 };
 
-// seleccionar componentes
-exports.seleccionarComponente = function(callback) {
-    consultsPreparerComponente.selectComponente( function(response) {
+// seleccionar CYEA
+exports.seleccionarCYEA = function(callback) {
+    consultsPreparerCYEA.selectCYEA( function(response) {
         if (response.success) {
-            msg = (response.error == 1) ? "Error de conexión" : "No se pudo seleccionar los componentes";
+            msg = (response.error == 1) ? "Error de conexión" : "No se pudo seleccionar los CYEAs";
             callback({
-                success: true,
-                data: response.data,
-                error: response.error
+                data: response.data           
             })
         } else {
             callback({
@@ -51,16 +49,16 @@ exports.seleccionarComponente = function(callback) {
     });
 };
 
-// editar componentes
-exports.editarComponente = function(datos, callback) {
-    consultsPreparerComponente.editComponente(datos, function(response) {
-        msg = (response.error === 1) ? "Error de conexión" : "No se pudo modificar el componente";
+// editar CYEA
+exports.editarCYEA = function(datos, callback) {
+    consultsPreparerCYEA.editCYEA(datos, function(response) {
+        msg = (response.error === 1) ? "Error de conexión" : "No se pudo modificar el CYEA";
         if (response.success) {
             callback({
                 success: true,
                 error: response.error,
-                title: "Componente editado",
-                message: "Componente editado con exito",
+                title: "CYEA editado",
+                message: "CYEA editado con exito",
                 type: "success"
             })
         } else {
@@ -75,16 +73,16 @@ exports.editarComponente = function(datos, callback) {
     });
 };
 
-// eliminar componentes
-exports.eliminarComponente = function(datos, callback) {
-    consultsPreparerComponente.deleteComponente(datos, function(response) {
-        msg = (response.error === 1) ? "Error de conexión" : "No se puede eliminar el componente";
+// eliminar CYEA
+exports.eliminarCYEA = function(datos, callback) {
+    consultsPreparerCYEA.deleteCYEA(datos, function(response) {
+        msg = (response.error === 1) ? "Error de conexión" : "No se puede eliminar el CYEA";
         if (response.success) {
             callback({
                 success: true,
                 error: response.error,
-                title: "Componente eliminado",
-                message: "Componente eliminado con éxito",
+                title: "CYEA eliminado",
+                message: "CYEA eliminado con éxito",
                 type: "success"
             })
         } else {

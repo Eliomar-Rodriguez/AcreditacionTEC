@@ -73,8 +73,10 @@ exports.editDimension = function editDimension(datos, callback) {
 };
 // DELETE 
 exports.deleteDimension = function deleteDimension(datos, callback) {
+    console.log("Lego a consprep");
     var request = new Request('deleteDimension', function(err) {
         if (err) {
+            console.log("Error");
             msg = (request.error == 1) ? "Error de conexión" : "No se puede eliminar la dimensión";
             callback({
                 success: false,

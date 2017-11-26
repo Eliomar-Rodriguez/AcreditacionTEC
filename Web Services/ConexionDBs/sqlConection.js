@@ -11,7 +11,7 @@ var config = {
     password: '12345',
     server: 'localhost', // direccion del servidor
     options: {
-        database: 'AcreditacionTEC',
+        database: 'ProyectoAcreditacionTEC',
         driver: 'SQL Server Native Client 11.0',
         port: 1433,
         rowCollectionOnDone: true
@@ -111,6 +111,7 @@ exports.executeRequest = function executeRequest(request, callback) {
  * @param {function} callback
  */
 exports.callProcedure = function callProcedure(request, callback) {
+    console.log("sqlconcets");
     try {
         'use strict';
         var res = [],
@@ -133,7 +134,10 @@ exports.callProcedure = function callProcedure(request, callback) {
                     if (column.value === null) {
                         console.log('NULL recibido');
                     } else {
-                        row[column.metadata.colName] = column.value;
+                        if (column.metadata.colName.length === 0)
+                            row["success"] = column.value;
+                        else
+                            row[column.metadata.colName] = column.value;
                     }
                 });
                 res.push(row);
@@ -162,6 +166,5 @@ exports.callProcedure = function callProcedure(request, callback) {
         });
     } catch (error) {
         console.log(error);
-    }
-    
+    }    
 };
