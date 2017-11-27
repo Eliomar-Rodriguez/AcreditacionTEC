@@ -23,6 +23,12 @@ angular.module("acreditacion",['ngRoute','LocalStorageModule'])
         controller: "CYE_Ajustados",
         templateUrl:"../templates/CYE_Ajustados.html"
     })
+    .when('/permisos',{
+
+    })
+    .when('/componentes',{
+
+    })
     .otherwise({
         redirectTo: '/'
   }); 

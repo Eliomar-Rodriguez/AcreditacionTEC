@@ -15,12 +15,12 @@
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="AdminBSBMaterialDesign-master" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+<<<<<<< HEAD
       <file leaf-file-name="CYE.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/CYE.html">
           <provider selected="true" editor-type-id="text-editor">
@@ -29,16 +29,96 @@
               <folding>
                 <element signature="n#div#0;n#!!top" expanded="false" />
                 <element signature="n#div#2;n#div#0;n#div#0;n#!!top" expanded="false" />
+=======
+<<<<<<< HEAD
+      <file leaf-file-name="dimensiones_Controller.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Controllers/dimensiones_Controller.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="228">
+              <caret line="157" column="24" lean-forward="false" selection-start-line="157" selection-start-column="24" selection-end-line="157" selection-end-column="24" />
+=======
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="169">
+              <caret line="10" column="16" lean-forward="false" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="16" />
+>>>>>>> c591895ca592911817f846a1e813a1d863098588
+              <folding>
+                <element signature="n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="213">
+              <caret line="19" column="123" lean-forward="false" selection-start-line="19" selection-start-column="123" selection-end-line="19" selection-end-column="123" />
+              <folding>
+                <element signature="n#head#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+>>>>>>> 6301d7c76133599b4e0d4f8146ebeac1c7ac1930
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+<<<<<<< HEAD
       <file leaf-file-name="dimensiones.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/dimensiones.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="306">
               <caret line="61" column="66" lean-forward="false" selection-start-line="61" selection-start-column="50" selection-end-line="61" selection-end-column="66" />
+=======
+      <file leaf-file-name="mainPage_Controller.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mainPage_Controller.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dimensiones.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/dimensiones.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="703">
+              <caret line="62" column="76" lean-forward="false" selection-start-line="62" selection-start-column="76" selection-end-line="62" selection-end-column="76" />
+              <folding>
+                <element signature="n#div#0;n#div#0;n#div#0;n#!!top" expanded="false" />
+                <element signature="n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="false" />
+                <element signature="n#tr#0;n#thead#0;n#table#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="false" />
+                <element signature="n#div#1;n#!!top" expanded="false" />
+                <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#!!top" expanded="false" />
+                <element signature="n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#!!top" expanded="false" />
+                <element signature="n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#!!top" expanded="false" />
+                <element signature="n#div#2;n#!!top" expanded="false" />
+              </folding>
+=======
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="9" column="17" lean-forward="false" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="17" />
+              <folding />
+>>>>>>> c591895ca592911817f846a1e813a1d863098588
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main_page.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/main_page.html">
+          <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="6061">
+              <caret line="319" column="4" lean-forward="false" selection-start-line="319" selection-start-column="4" selection-end-line="320" selection-end-column="119" />
+=======
+            <state relative-caret-position="51">
+              <caret line="3" column="5" lean-forward="false" selection-start-line="3" selection-start-column="5" selection-end-line="3" selection-end-column="5" />
+>>>>>>> 6301d7c76133599b4e0d4f8146ebeac1c7ac1930
               <folding>
                 <element signature="n#div#0;n#div#0;n#div#0;n#!!top" expanded="false" />
                 <element signature="n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="false" />
@@ -80,6 +160,7 @@
       <file leaf-file-name="main_page.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/main_page.html">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="390">
               <caret line="343" column="60" lean-forward="false" selection-start-line="343" selection-start-column="60" selection-end-line="343" selection-end-column="60" />
               <folding>
@@ -101,6 +182,12 @@
                 <element signature="n#li#11;n#ul#0;n#div#1;n#aside#0;n#section#0;n#body#0;n#html#0;n#!!top" expanded="false" />
                 <element signature="n#section#1;n#body#0;n#html#0;n#!!top" expanded="false" />
               </folding>
+=======
+            <state relative-caret-position="357">
+              <caret line="39" column="47" lean-forward="true" selection-start-line="39" selection-start-column="47" selection-end-line="39" selection-end-column="47" />
+>>>>>>> c591895ca592911817f846a1e813a1d863098588
+              <folding />
+>>>>>>> 6301d7c76133599b4e0d4f8146ebeac1c7ac1930
             </state>
           </provider>
         </entry>
@@ -154,8 +241,8 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" interpreter_name="PHP 5.6" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
+    <option name="x" value="180" />
+    <option name="y" value="18" />
     <option name="width" value="1382" />
     <option name="height" value="744" />
   </component>
@@ -200,44 +287,18 @@
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Acreditacion" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Aplicación" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Acreditacion" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Aplicación" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Acreditacion" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Aplicación" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Controllers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
+          <expand>
+            <path>
+              <item name="Acreditacion" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Aplicación" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Acreditacion" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Aplicación" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
         </subPane>
       </pane>
     </panes>
@@ -276,9 +337,14 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.index.html">
-    <configuration default="false" name="index.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/AdminBSBMaterialDesign-master/index.html">
-      <method />
+  <component name="RunManager" selected="JavaScript Debug.index.html (1)">
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
     </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <method />
@@ -317,15 +383,6 @@
       <option name="filePath" />
       <method />
     </configuration>
-    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
-      <node-interpreter>project</node-interpreter>
-      <node-options />
-      <gulpfile />
-      <tasks />
-      <arguments />
-      <envs />
-      <method />
-    </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
       <command value="run" />
       <scripts />
@@ -346,12 +403,19 @@
       <recursive>false</recursive>
       <method />
     </configuration>
-    <list size="1">
+    <configuration name="index.html (1)" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/Acreditacion/index.html" />
+    <configuration name="index.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/AdminBSBMaterialDesign-master/index.html" />
+    <configuration name="main_page.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/Acreditacion/templates/main_page.html" />
+    <list size="3">
       <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.index.html" />
+      <item index="1" class="java.lang.String" itemvalue="JavaScript Debug.main_page.html" />
+      <item index="2" class="java.lang.String" itemvalue="JavaScript Debug.index.html (1)" />
     </list>
     <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.index.html" />
+      <list size="3">
+        <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.index.html (1)" />
+        <item index="1" class="java.lang.String" itemvalue="JavaScript Debug.main_page.html" />
+        <item index="2" class="java.lang.String" itemvalue="JavaScript Debug.index.html" />
       </list>
     </recent_temporary>
   </component>
@@ -387,15 +451,32 @@
       <workItem from="1510339126239" duration="12087000" />
       <workItem from="1511498306444" duration="2575000" />
       <workItem from="1511501209504" duration="201000" />
+<<<<<<< HEAD
+      <workItem from="1511535412695" duration="18685000" />
+      <workItem from="1511580547212" duration="2531000" />
+=======
       <workItem from="1511535412695" duration="18799000" />
+<<<<<<< HEAD
       <workItem from="1511582238143" duration="1886000" />
       <workItem from="1511620754092" duration="11976000" />
       <workItem from="1511641735871" duration="12140000" />
+=======
+      <workItem from="1511582238143" duration="1301000" />
+>>>>>>> c591895ca592911817f846a1e813a1d863098588
+>>>>>>> 6301d7c76133599b4e0d4f8146ebeac1c7ac1930
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="172101000" />
+=======
+<<<<<<< HEAD
+    <option name="totallyTimeSpent" value="148516000" />
+=======
+    <option name="totallyTimeSpent" value="147400000" />
+>>>>>>> c591895ca592911817f846a1e813a1d863098588
+>>>>>>> 6301d7c76133599b4e0d4f8146ebeac1c7ac1930
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -407,9 +488,13 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
+<<<<<<< HEAD
     <frame x="-8" y="-8" width="1382" height="744" extended-state="0" />
+=======
+    <frame x="180" y="18" width="1382" height="744" extended-state="0" />
+>>>>>>> 6301d7c76133599b4e0d4f8146ebeac1c7ac1930
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19568452" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19508563" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32935154" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -450,7 +535,7 @@
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="processedProjectFiles" value="true" />
+    <option name="version" value="1" />
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -462,6 +547,16 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/templates/main_page.html" />
+    <entry file="file://$PROJECT_DIR$/admin/Dimensiones/dimensiones_Controller.js" />
+=======
+>>>>>>> c591895ca592911817f846a1e813a1d863098588
+    <entry file="file://$PROJECT_DIR$/app.js" />
+    <entry file="file://$PROJECT_DIR$/Controllers/mainPage_Controller.js" />
+>>>>>>> 6301d7c76133599b4e0d4f8146ebeac1c7ac1930
     <entry file="file://$PROJECT_DIR$/admin/Dimensiones/index.html" />
     <entry file="file://$PROJECT_DIR$/admin/informes/index.html" />
     <entry file="file://$PROJECT_DIR$/templates/main_page.html" />
@@ -490,13 +585,7 @@
     <entry file="file://$PROJECT_DIR$/admin/Dimensiones/index.html" />
     <entry file="file://$PROJECT_DIR$/admin/app.js" />
     <entry file="file://F:/Cascaron Angular JS/AdminBSBMaterialDesign-master/index.html" />
-    <entry file="file://$PROJECT_DIR$/../../../../../6 Semestre/Intro a la Web/Proyectos/Proyecto 2/Aplicacion/templates/countries.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="31" lean-forward="true" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/6 Semestre/Intro a la Web/Proyectos/Proyecto 2/Aplicacion/templates/countries.html" />
     <entry file="file://F:/Cascaron Angular JS/AdminBSBMaterialDesign-master/pages/forms/advanced-form-elements.html" />
     <entry file="file://F:/Cascaron Angular JS/AdminBSBMaterialDesign-master/pages/ui/dialogs.html" />
     <entry file="file://$PROJECT_DIR$/plugins/sweetalert/sweetalert.min.js" />
@@ -508,20 +597,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../../../../6 Semestre/Intro a la Web/Proyectos/Proyecto1/Aplicación/Ventana Comprador/template.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="45" column="101" lean-forward="true" selection-start-line="45" selection-start-column="101" selection-end-line="45" selection-end-column="101" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../../../6 Semestre/Intro a la Web/Proyectos/Proyecto1/Aplicación/Ventana para Registrarse/registerScripts.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-357">
-          <caret line="18" column="9" lean-forward="true" selection-start-line="18" selection-start-column="9" selection-end-line="18" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/6 Semestre/Intro a la Web/Proyectos/Proyecto1/Aplicación/Ventana Comprador/template.html" />
+    <entry file="file://$USER_HOME$/6 Semestre/Intro a la Web/Proyectos/Proyecto1/Aplicación/Ventana para Registrarse/registerScripts.js" />
     <entry file="file://$PROJECT_DIR$/js/librerias/notify.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -536,20 +613,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../../../../../6 Semestre/Intro a la Web/Proyectos/Proyecto 2/Aplicacion/controllers_moduloPaginaPrincipal.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="80" column="12" lean-forward="true" selection-start-line="80" selection-start-column="12" selection-end-line="85" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../../../6 Semestre/Lenguajes de Programación/Proyectos/Proyecto 4 - Tank Attack/Aplicacion/app/controladores/controller_Principal.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/6 Semestre/Intro a la Web/Proyectos/Proyecto 2/Aplicacion/controllers_moduloPaginaPrincipal.js" />
+    <entry file="file://$USER_HOME$/6 Semestre/Lenguajes de Programación/Proyectos/Proyecto 4 - Tank Attack/Aplicacion/app/controladores/controller_Principal.js" />
     <entry file="file://$PROJECT_DIR$/plugins/bootstrap/css/bootstrap.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="372">
@@ -565,16 +630,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Controllers/componentes_Controller.js">
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/Controllers/login_Controller.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-          <folding />
+        <state relative-caret-position="85">
+          <caret line="23" column="16" lean-forward="false" selection-start-line="23" selection-start-column="16" selection-end-line="23" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Controllers/mainPage_Controller.js">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="12" lean-forward="false" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="19" column="25" lean-forward="false" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+=======
+>>>>>>> c591895ca592911817f846a1e813a1d863098588
+    <entry file="file://$PROJECT_DIR$/Controllers/componentes_Controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+<<<<<<< HEAD
+=======
+          <folding />
+>>>>>>> c591895ca592911817f846a1e813a1d863098588
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Controllers/mainPage_Controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="68">
           <caret line="4" column="12" lean-forward="false" selection-start-line="4" selection-start-column="12" selection-end-line="4" selection-end-column="12" />
           <folding />
@@ -589,6 +682,73 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../../../../6 Semestre/Intro a la Web/Proyectos/Proyecto 2/Aplicacion/templates/login.html">
+=======
+<<<<<<< HEAD
+        <state relative-caret-position="703">
+          <caret line="62" column="76" lean-forward="false" selection-start-line="62" selection-start-column="76" selection-end-line="62" selection-end-column="76" />
+          <folding>
+=======
+        <state relative-caret-position="93">
+          <caret line="62" column="76" lean-forward="false" selection-start-line="62" selection-start-column="76" selection-end-line="62" selection-end-column="76" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="false" />
+>>>>>>> c591895ca592911817f846a1e813a1d863098588
+            <element signature="n#div#0;n#div#0;n#div#0;n#!!top" expanded="false" />
+            <element signature="n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="false" />
+            <element signature="n#tr#0;n#thead#0;n#table#0;n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#!!top" expanded="false" />
+            <element signature="n#div#1;n#!!top" expanded="false" />
+            <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#!!top" expanded="false" />
+            <element signature="n#div#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#!!top" expanded="false" />
+            <element signature="n#div#1;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#!!top" expanded="false" />
+            <element signature="n#div#2;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/templates/main_page.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6061">
+          <caret line="319" column="4" lean-forward="false" selection-start-line="319" selection-start-column="4" selection-end-line="320" selection-end-column="119" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Controllers/dimensiones_Controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="157" column="24" lean-forward="false" selection-start-line="157" selection-start-column="24" selection-end-line="157" selection-end-column="24" />
+=======
+    <entry file="file://$PROJECT_DIR$/Controllers/dimensiones_Controller.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="50" lean-forward="false" selection-start-line="4" selection-start-column="50" selection-end-line="4" selection-end-column="50" />
+>>>>>>> c591895ca592911817f846a1e813a1d863098588
+          <folding>
+            <element signature="e#165#2641#0" expanded="false" />
+            <element signature="e#237#610#0" expanded="false" />
+            <element signature="e#664#1113#0" expanded="false" />
+            <element signature="e#1675#2122#0" expanded="false" />
+            <element signature="e#2179#2600#0" expanded="false" />
+            <element signature="e#4106#4304#0" expanded="false" />
+            <element signature="e#4420#6522#0" expanded="false" />
+            <element signature="e#4557#5147#0" expanded="false" />
+            <element signature="e#5505#6123#0" expanded="false" />
+            <element signature="e#6667#6740#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="19" column="123" lean-forward="false" selection-start-line="19" selection-start-column="123" selection-end-line="19" selection-end-column="123" />
+          <folding>
+            <element signature="n#head#0;n#html#0;n#!!top" expanded="false" />
+=======
+    <entry file="file://$PROJECT_DIR$/Controllers/mainPage_Controller.js">
+>>>>>>> 6301d7c76133599b4e0d4f8146ebeac1c7ac1930
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -597,12 +757,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../../../../../6 Semestre/Intro a la Web/Proyectos/Proyecto 2/Aplicacion/controllers_moduloPrincipal.js">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="663">
           <caret line="39" column="47" lean-forward="false" selection-start-line="39" selection-start-column="47" selection-end-line="39" selection-end-column="47" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Controllers/cye_ajustados_Controller.js">
+=======
+        <state relative-caret-position="169">
+          <caret line="10" column="16" lean-forward="false" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="16" />
+          <folding>
+>>>>>>> c591895ca592911817f846a1e813a1d863098588
+            <element signature="n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/mainPage_Controller.js">
+=======
+    <entry file="file://$PROJECT_DIR$/../../../../../6 Semestre/Intro a la Web/Proyectos/Proyecto 2/Aplicacion/index.html">
+>>>>>>> 6301d7c76133599b4e0d4f8146ebeac1c7ac1930
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="5" column="8" lean-forward="true" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="8" />
@@ -612,7 +788,12 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/app.js">
+=======
+    <entry file="file://$PROJECT_DIR$/../../../../../6 Semestre/Intro a la Web/Proyectos/Proyecto 2/Aplicacion/templates/login.html">
+>>>>>>> c591895ca592911817f846a1e813a1d863098588
+>>>>>>> 6301d7c76133599b4e0d4f8146ebeac1c7ac1930
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
           <caret line="22" column="21" lean-forward="true" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="34" />
@@ -620,7 +801,13 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/templates/CYE_Ajustados.html">
+=======
+<<<<<<< HEAD
+=======
+    <entry file="file://$PROJECT_DIR$/app.js">
+>>>>>>> 6301d7c76133599b4e0d4f8146ebeac1c7ac1930
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="33" column="64" lean-forward="false" selection-start-line="33" selection-start-column="64" selection-end-line="33" selection-end-column="64" />
@@ -682,6 +869,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -731,5 +919,8 @@
         </state>
       </provider>
     </entry>
+=======
+>>>>>>> c591895ca592911817f846a1e813a1d863098588
+>>>>>>> 6301d7c76133599b4e0d4f8146ebeac1c7ac1930
   </component>
 </project>

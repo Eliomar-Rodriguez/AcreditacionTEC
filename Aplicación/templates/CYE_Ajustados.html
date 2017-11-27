@@ -27,21 +27,31 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <table  class="table table-hover dataTable table-responsive" id="dataTableDimensiones" style="overflow: auto">
+                        <table  class="table table-hover dataTable table-responsive" style="overflow: auto">
                             <thead>
                             <tr role="row">
                                 <th>#</th>
-                                <th>Criterio y Estándar Ajustado</th>
+                                <th>Criterio</th>
+                                <th>CYE Ajustado</th>
+                                <th>Observación</th>
+                                <th>Valoración</th>
+                                <th>Responsables - Correo</th>
+                                <th>Fecha Límite</th>
                                 <th>Acción</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr role="row" class="odd" ng-repeat="item in lista_filtrada_dimensiones | limitTo : 4">
+                            <tr role="row" class="odd" ng-repeat="item in lista_filtrada_cye_ajustados | limitTo : 2">
                                 <td>{{$index + 1}}</td>
-                                <td>{{item.Dimension}}</td>
+                                <td>{{item.Criterio}}</td>
+                                <td>{{item.CriterioAjustado}}</td>
+                                <td>{{item.Observaciones}}</td>
+                                <td>{{item.Valoracion}}</td>
+                                <td>{{item.Responsable}} - {{item.Correo}}</td>
+                                <td>{{item.FLOC}}</td>
                                 <td>
-                                    <a data-toggle="modal" data-target="#modalEditDimension" ng-click="openModalEdit(item.ID)" style="color: darkblue">EDITAR</a> |
-                                    <a  ng-click="deleteDimension(item.ID)" style="color: red;">ELIMINAR</a>
+                                    <a data-toggle="modal" data-target="#modalEditCYE"  style="color: darkblue">EDITAR</a> |
+                                    <a  ng-click="deleteData(item.ID)" style="color: red;">ELIMINAR</a>
                                 </td>
                             </tr>
                             </tbody>
@@ -69,9 +79,9 @@
                     <div class="row clearfix">
                         <div class="row">
                             <div class="col-sm-6">
-                                <label for="select_cye_available">Criterios y Estándares Disponibles</label>
+                                <label for="select_cye_available">Criterios y Estándares</label>
                                 <select class="form-control" id="select_cye_available" ng-model="selected_cye_option">
-                                    <option ng-repeat="item in lista_cye_available">{{item.Nombre}}</option>
+                                    <option ng-repeat="item in lista_cye">{{item.Criterio}}</option>
                                 </select>
                             </div>
                             <div class="col-sm-6 ">
@@ -83,7 +93,7 @@
                             <div class="col-sm-6">
                                 <label for="select_available_responsables">Responsable</label>
                                 <select class="form-control" id="select_available_responsables" ng-model="selected_responsable">
-                                    <option ng-repeat="item in lista_responsables">{{item.Nombre_Responsable}}</option>
+                                    <option ng-repeat="item in lista_usuarios">{{item.NombreCompleto}}</option>
                                 </select>
                             </div>
                             <div class="col-sm-6">
@@ -95,8 +105,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary"  ng-click="()" id="button_save_cye_ajustado">
-                        Agregar Dimensión
+                    <button type="button" class="btn btn-primary"  ng-click="insertData()" id="button_save_cye_ajustado">
+                        Crear Criterio
                     </button>
                 </div>
             </div>
@@ -104,3 +114,44 @@
     </div>
 </div>
 <!--END MODAL ADD DIMENSION-->
+
+<!--START MODAL EDIT CYE-->
+<div class="container-fluid">
+    <div class="modal fade" id="modalEditCYEA" tabindex="-1" role="dialog" aria-labelledby="modalAddDimension" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Criterio y Estándar | {{cye_edit.Criterio}}</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row clearfix">
+                        <div class="col-md-12">
+                            <div class="container-fluid">
+                                <label for="input_edit_cye">Ingrese el nuevo nombre del criterio y estándar</label>
+                                <input type="text" class="form-control" ng-model="input_edit_cye"
+                                       id="input_edit_cye" placeholder="Nombre Dimensión" value="{{cye_edit.Criterio}}">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <br>
+                            <div class="col-sm-6">
+                                <label for="select_edit_componente">Componentes Disponibles</label>
+                                <select class="form-control" id="select_edit_componente" ng-model="selected_edit_component">
+                                    <option ng-repeat="item in lista_componentes">{{item.Componente}}</option>
+                                </select>
+                                <p>Componente Asociado: {{cye_edit.Componente_Asociado}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"  ng-click="editData()" id="button_edit_cye">
+                        Guardar Cambios
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--END MODAL EDIT CYE-->

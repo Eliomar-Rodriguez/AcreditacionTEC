@@ -7714,3 +7714,69 @@ html.ie11 .dropdown-menu ul.menu li a {
 html.ie11 .bs-searchbox .form-control {
   width: 90%; }
 
+input[type=text] {
+
+    width: 130px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    height: 38px;
+    font-size: 16px;    
+    background-color: white;
+    background-image: url('searchicon.png');
+    background-repeat: no-repeat;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+input[type=text]:focus {
+    width: 80%;
+}
+input[type=text]:hover {
+    width: 80%;
+}
+
+.SearchingButton {
+  margin-top: 5%;
+  margin-left: 40%;
+  height: 55px;
+}
+
+.SearchingList {
+  margin-top: 8%;
+  margin-left: 40%;
+  margin-bottom: 8%;    
+}
+
+.CheckList {
+    margin-top: 8%;
+    margin-left: 25%;
+    border-radius: 7px 7px 7px 7px;
+    -moz-border-radius: 7px 7px 7px 7px;
+    -webkit-border-radius: 7px 7px 7px 7px;
+    border: 5px double #000000;
+            }
+
+.ComponentDesign {
+  width: 70%;
+  margin-bottom: 2%;
+  margin-left: 8%;
+  height: 30px;
+}
+
+.optionText {
+    position: absolute;
+}
+
+.optionButton {
+    margin-left: 20%;
+    position: absolute;
+}
+
+.my-controller {
+  border: 1px solid #fcc;
+  padding: 5px;
+  margin: 3px;
+}
+.my-controller small {
+  color: #c99;
+}
+

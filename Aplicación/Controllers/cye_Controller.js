@@ -3,131 +3,187 @@
  */
 
 angular.module('acreditacion')
-    .factory("claseCYE",function () {
-        class criterio_y_estandar{
-            constructor(id,nombreCYE,listaDimensiones,idCarrera) {
-                this._id = id;
-                this._nombreCYE = nombreCYE;
-                this._listaDimensiones = listaDimensiones;//CONTIENE LAS DIMENSIONES SELECCIONADAS
-                this._idCarrera = idCarrera;
+    .factory("FactoryCYE",function ($http) {
+        let factory =  {
+            getAllData : function (callback) {
+                $http({
+                    method:"GET",
+                    url: "http://172.24.42.4:8080/selectCYE"
+                }).then(function successCallback(response) {
+                    callback(response.data);
+                }).catch(function errorCallback(response) {
+                    callback(response.data);
+                });
+            },
+            deleteData : function (objetoCYE) {
+                $http({
+                    method : "POST",
+                    url: "http://172.24.42.4:8080/deleteCYE",
+                    data: objetoCYE
+                }).then(function successCallback(response) {
+                    $.notify("Registro eliminado!","success");
+                }).catch(function errorCallback(response) {
+                    $.notify("Error al borrar!","error");
+                });
+            },
+            insertData : function (objetoCYE) {
+                $http({
+                    method : "POST",
+                    url : "http://172.24.42.4:8080/insertCYE",
+                    data :  objetoCYE
+                }).then(function successCallback(response) {
+                    swal("Agregado!", "Registro creado.", "success");
+                }).catch(function errorCallback(response) {
+                    $.notify("Error al crear!","error")
+                });
+            },
+            editData : function (objetoCYE) {
+                $http({
+                    method : "POST",
+                    url : "http://172.24.42.4:8080/editCYE",
+                    data : objetoCYE
+                }).then(function successCallback(response) {
+                    $.notify("Dimensión editada!","success");
+                }).catch(function errorCallback(response) {
+                    $.notify("Error al editar!","error");
+                });
+            },
+            getComponents : function (callback) {
+                $http({
+                    method:"GET",
+                    url: "http://172.24.42.4:8080/selectComponentes"
+                }).then(function successCallback(response) {
+                    callback(response.data);
+                }).catch(function errorCallback(response) {
+                    callback(response.data);
+                });
             }
-            get id() {
-                return this._id;
-            }
+        };
+        return factory;
+    })
+    .controller("CriteriosYEstandares",function ($scope,FactoryCYE) {
+        /*--------------------------------VARIABLES-------------------------*/
+        $scope.listaCYE = [];
+        $scope.lista_filtrada_cye = [];
+        $scope.input_create_cye = "";
+        $scope.selected_component = "";
+        $scope.lista_componentes = [];
+        $scope.componente_actual = "";
+        $scope.selected_edit_component = "";
+        $scope.input_edit_cye = "";
+        $scope.cye_edit = {
+            ID_Criterio : 0,
+            Criterio : "",
+            Componente_Asociado : ""
+        };
 
-            set id(value) {
-                this._id = value;
-            }
+        $(document).ready(
+            FactoryCYE.getAllData(function (result) {
+                $scope.listaCYE = result;
+                $scope.lista_filtrada_cye = result;
+            }),
+            FactoryCYE.getComponents(function (result) {
+                $scope.lista_componentes = result;
+            })
+        );
 
-            get nombreCYE() {
-                return this._nombreCYE;
-            }
-
-            set nombreCYE(value) {
-                this._nombreCYE = value;
-            }
-
-            get listaDimensiones() {
-                return this._listaDimensiones;
-            }
-
-            set listaDimensiones(value) {
-                this._listaDimensiones.push(value);
-            }
-
-            get idCarrera() {
-                return this._idCarrera;
-            }
-
-            set idCarrera(value) {
-                this._idCarrera = value;
+        function getComponente(nombre_componente) {
+            for(item in $scope.lista_componentes){
+                if($scope.lista_componentes[item].Componente == nombre_componente){
+                    alert("id:"+$scope.lista_componentes[item].ID);
+                    return $scope.lista_componentes[item].ID;
+                }
             }
         }
-        return criterio_y_estandar;
-    })
-    .service("gestionCYE",function (claseCYE,$http) {
-        /*ALMACENA LOS CRITERIOS Y ESTÁNDARES*/
-        this.criterios_y_estandares = [];
-
-        /*INSERTA NUEVOS REGISTROS EN LA BD*/
-        this.postData = function (registro) {
-            $http({
-                method: 'POST',
-                url: '"http://IP/funcion"',
-                data: {
-                    nombreParametro: registro.nombreCYE
-                },
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            })
-                .success(function(response) {
-                    console.log(response.data);
-                }.error(function (error) {
-                    console.log(error);
-                }));
+        
+        $scope.openEditModal = function(ID,Criterio,Componente) {
+            $("#modalEditCYE").modal("show");
+            $scope.cye_edit.Criterio = Criterio;
+            $scope.cye_edit.ID_Criterio = ID;
+            $scope.cye_edit.Componente_Asociado = Componente;
+            $scope.input_edit_cye = Criterio;
+            debugger;
         };
 
-        /*OBTIENE TODOS LOS ELEMENTOS DE LA BD*/
-        this.getData = function () {
-            $http.get("http://IP/funcion")
-                .then(function (response) {
-                    llenarLista(response.data);
-                    $.notify("Consulta exitosa!","info");
-                },function (response) {
-                    $.notify("Error al procesar consulta!","error")
-                });
-        };
-
-        /*BORRA DE LA BD UN REGISTRO CYE*/
-        this.deleteData = function (idCYE) {
-            $http.get("http://IP/funcion")
-                .then(function (response) {
-                    $.notify("Consulta exitosa!","info");
-                },function (response) {
-                    $.notify("Error al procesar consulta!","error")
-                });
-        };
-
-        /*ACTUALIZA UN REGISTRO DE LA BD*/
-        this.editData = function (registro) {
-            $http.get("http://IP/funcion")
-                .then(function (response) {
-                    llenarLista(response.data);
-                    $.notify("Consulta exitosa!","info");
-                },function (response) {
-                    $.notify("Error al procesar consulta!","error")
-                });
-        };
-
-        /*LLENA LA LISTA DE CRITERIOS Y ESTÁNDARES*/
-        this.llenarLista = function (response) {
-            for(item in response){
-                this.criterio_y_estandar.push(
-                    new claseCYE(response.ID,response.criterio,response.ID_Dimension,ID_Carrera)
+        $scope.editData = function () {
+            if($scope.input_edit_cye != ""){
+                swal({
+                        title: "Alerta",
+                        text: "Seguro que desea realizar la modificación? ",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-primary",
+                        confirmButtonText: "Sí, Editarlo!",
+                        cancelButtonText: "No, Cancelar!",
+                        cancelButtonClass:"btn-danger",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function(isConfirm) {
+                        FactoryCYE.editData(
+                            {
+                                ID :$scope.cye_edit.ID_Criterio,
+                                ID_Componente: getComponente($scope.cye_edit.Componente_Asociado),
+                                Criterio : $scope.input_edit_cye
+                            }
+                        );
+                        $("#modalEditCYE").modal("hide");
+                        FactoryCYE.getAllData(function (result) {
+                            $scope.listaCYE = result;
+                            $scope.lista_filtrada_cye = result;
+                        });
+                        swal("Exito!","Modificación realizada!","success");
+                    }
                 );
             }
+            else{
+                $.notify("Complete los espacíos en blanco!","error");
+            }
         };
+        
+        $scope.insertData = function () {
+            if($scope.input_create_cye != ""){
+                if($scope.selected_component != ""){
 
-        /*BUSCA UN ELEMENTO DE LA LISTA CRITERIOS Y ESTÁNDARES*/
-        this.getItem = function (nombreCYE) {
-            for(item in this.criterio_y_estandar){
-                if(this.criterio_y_estandar[i].nombreCYE == nombreCYE){
-                    return this.criterio_y_estandar[i];
+                    swal({
+                            title: "Alerta",
+                            text: "Seguro que desea insertar? ",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonClass: "btn-primary",
+                            confirmButtonText: "Sí, Crearlo!",
+                            cancelButtonText: "No, Cancelar!",
+                            cancelButtonClass:"btn-danger",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        },
+                        function(isConfirm) {
+                            FactoryCYE.insertData(
+                                {
+                                    ID_Componente: getComponente($scope.selected_component),
+                                    Criterio: $scope.input_create_cye
+                                }
+                            );
+                            $("#modalAddRegister").modal("hide");
+                            FactoryCYE.getAllData(function (result) {
+                                $scope.listaCYE = result;
+                                $scope.lista_filtrada_cye = result;
+                            });
+                            swal("Exito!","Se ha creado con éxito!","success");
+                        }
+                    );
                 }
+                else{
+                    $.notify("Debe seleccionar al menos un componente!","error");
+                }
+            }
+            else{
+                $.notify("Ingrese un nombre válido!","error");
             }
         };
 
-        /*OBTIENE LA LISTA DE CRITERIOS Y ESTÁNDARES*/
-        this.getAll = function () {
-          return this.criterio_y_estandar;
+        $scope.deleteData = function(IDComponente){
+            FactoryCYE.deleteData({ID:IDComponente});
         };
-
-    })
-    .service("conexionInterfaz",function ($scope,claseCYE,gestionCYE) {
-        
-    })
-    .controller("CriteriosYEstandares",function ($scope,$http,$location) {
-        
     })
 ;

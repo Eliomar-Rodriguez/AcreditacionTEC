@@ -31,13 +31,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="item in listaCYE">
+                            <tr ng-repeat="item in lista_filtrada_cye">
                                 <td>{{$index + 1}}</td>
-                                <td>{{item.nombreCYE}}</td>
-                                <td>{{item.componente_asociado}}</td>
+                                <td>{{item.Criterio}}</td>
+                                <td>{{item.Componente}}</td>
                                 <td>
-                                    <a style="background-color: blue">EDITAR</a> |
-                                    <a style="background-color: red">ELIMINAR</a>
+                                    <a ng-click="openEditModal(item.ID,item.Criterio,item.Componente)" style="color: blue">EDITAR</a> |
+                                    <a ng-click="deleteData(item.ID)" style="color: red">ELIMINAR</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -74,48 +74,26 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Agregar Dimensión</h5>
+                    <h5 class="modal-title">Crear Criterio y Estándar</h5>
                 </div>
                 <div class="modal-body">
                     <div class="row clearfix">
                         <div class="row">
                             <div class="col-xs-12">
-                                <label for="txtCriterioEstandar">Ingrese el nombre del criterio y estándar</label>
-                                <input type="text" class="form-control" ng-model="name"
-                                       id="txtCriterioEstandar" placeholder="Nombre del Criterio y Estándar" >
+                                <label for="input_create_cye">Ingrese el nombre del criterio y estándar</label>
+                                <input type="text" class="form-control" ng-model="input_create_cye"
+                                       id="input_create_cye" placeholder="Nombre del Criterio y Estándar" >
                             </div>
 
                         </div>
                         <div><hr></div>
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="col-xs-4">
-                                    <label for="dimensionesDisponibles">Dimensiones <br> Disponibles</label>
-                                    <select class="form-control show-tick" id="dimensionesDisponibles"  multiple
-                                            data-live-search="true" ng-model="addRegister">
-                                        <option ng-repeat="item in listaDimensiones">{{item.nombreDimension}}</option>
-                                    </select>
-                                </div>
-                                <div class="col-xs-4" style="padding-top: 12%">
-                                    <div class="col-xs-6" >
-                                        <button  class="btn btn-sm btn-primary" ng-click="" title="Agregar a la lista">
-                                            <i class="material-icons">add</i>
-                                        </button>
-                                    </div>
-                                    <div class="col-xs-6">
-                                        <button class="btn btn-sm btn-danger" ng-click=""
-                                                title="Quitar de la lista" >
-                                            <i class="material-icons">delete</i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="col-xs-4">
-                                    <label for="dimensionesSeleccionadas">Dimensiones Seleccionadas</label>
-                                    <select class="form-control  show-tick" ng-model="removeRegister" id="dimensionesSeleccionadas"
-                                            data-live-search="true"  multiple>
-                                        <option ng-repeat="item in listaDimensionesSeleccionadas">{{item.nombreDimension}}</option>
-                                    </select>
-                                </div>
+                                <label for="select_componentes_disponibles">Componentes Disponibles</label>
+                                <select class="form-control" ng-model="selected_component" id="select_componentes_disponibles">
+                                    <option ng-repeat="item in lista_componentes">{{item.Componente}}</option>
+                                </select>
+                                <p>Componente Seleccionado: <strong>{{selected_component}}</strong></p>
                             </div>
 
                         </div>
@@ -123,8 +101,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary"  ng-click="save()" id="btnSaveDimension">
-                        Agregar Dimensión
+                    <button type="button" class="btn btn-primary"  ng-click="insertData()" id="button_save_cye">
+                        Agregar Criterio
                     </button>
                 </div>
             </div>
@@ -132,3 +110,44 @@
     </div>
 </div>
 <!--END MODAL ADD CYE-->
+
+<!--START MODAL EDIT CYE-->
+<div class="container-fluid">
+    <div class="modal fade" id="modalEditCYE" tabindex="-1" role="dialog" aria-labelledby="modalAddDimension" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Criterio y Estándar | {{cye_edit.Criterio}}</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row clearfix">
+                        <div class="col-md-12">
+                            <div class="container-fluid">
+                                <label for="input_edit_cye">Ingrese el nuevo nombre del criterio y estándar</label>
+                                <input type="text" class="form-control" ng-model="input_edit_cye"
+                                       id="input_edit_cye" placeholder="Nombre Dimensión" value="{{cye_edit.Criterio}}">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <br>
+                            <div class="col-sm-6">
+                                <label for="select_edit_componente">Componentes Disponibles</label>
+                                <select class="form-control" id="select_edit_componente" ng-model="selected_edit_component">
+                                    <option ng-repeat="item in lista_componentes">{{item.Componente}}</option>
+                                </select>
+                                <p>Componente Asociado: {{cye_edit.Componente_Asociado}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"  ng-click="editData()" id="button_edit_cye">
+                        Guardar Cambios
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--END MODAL EDIT CYE-->

@@ -75,6 +75,7 @@ exports.editarDimension = function(datos, callback) {
 
 // eliminar dimension
 exports.eliminarDimension = function(datos, callback) {
+    console.log("logica "+datos.ID);
     consultsPreparerDimensiones.deleteDimension(datos, function(response) {
         msg = (response.error === 1) ? "Error de conexión" : "No se puede eliminar la dimensión";
         if (response.success) {

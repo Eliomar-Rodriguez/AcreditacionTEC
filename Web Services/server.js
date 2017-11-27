@@ -12,7 +12,8 @@
 */
 var componenteCtrl = require('./Controladores/controladorComponentes'); // controlador de Componentes
 var dimensionCtrl = require('./Controladores/controladorDimensiones'); // controlador de Dimensiones
-var CYECtrl = require('./Controladores/controladorCYE'); // controlador de Dimensiones
+var CYECtrl = require('./Controladores/controladorCYE'); // controlador de CYE
+var CYEACtrl = require('./Controladores/controladorCYEA'); // controlador de CYEA
 /*
 ===============================================================================
 >  Configuraciones principales del servidor, con esto escucha las peticiones  <
@@ -42,40 +43,56 @@ app.use(function(req, res, next) {
 >  Inicio de las direcciones (Endpoints)  <
 ===========================================
 
+/** tipos de consulta, implementar!
+ * post
+ * get
+ * put
+ * delete
+ */
+/*
 ==================================
->  EndPoints de los Componentes  <
+>  EndPoints de los Componentes  < // bien todos
 ==================================
 */
 app.post('/insertComponente', componenteCtrl.insertComponente);
 app.get('/selectComponentes', componenteCtrl.selectComponente);
-app.put('/editComponente', componenteCtrl.editComponente);
-app.delete('/deleteComponente', componenteCtrl.deleteComponente);
+app.post('/editComponente', componenteCtrl.editComponente);
+app.post('/deleteComponente', componenteCtrl.deleteComponente);
 
 /*
 ==================================
->  EndPoints de los Dimensiones  <
+>  EndPoints de los Dimensiones  < // bien todos
 ==================================
 */
 app.post('/insertDimension', dimensionCtrl.insertDimension);
 app.get('/selectDimensiones', dimensionCtrl.selectDimension);
-app.put('/editDimension', dimensionCtrl.editDimension);
-app.delete('/deleteDimension', dimensionCtrl.deleteDimension);
+app.post('/editDimension', dimensionCtrl.editDimension);
+app.post('/deleteDimension', dimensionCtrl.deleteDimension);
 
 /*
 ==================================
->     EndPoints de los CYE       <
+>     EndPoints de los CYE       < // bien todos
 ==================================
 */
 app.post('/insertCYE', CYECtrl.insertCYE);
 app.get('/selectCYE', CYECtrl.selectCYE);
-app.put('/editCYE', CYECtrl.editCYE);
-app.delete('/deleteCYE', CYECtrl.deleteCYE);
+app.post('/editCYE', CYECtrl.editCYE);
+app.post('/deleteCYE', CYECtrl.deleteCYE);
+
+/*
+==================================
+>     EndPoints de los CYEA      < // bien todos
+==================================
+*/
+app.post('/insertCYEA', CYEACtrl.insertCYEA);
+app.get('/selectCYEA', CYEACtrl.selectCYEA);
+app.post('/editCYEA', CYEACtrl.editCYEA);
+app.post('/deleteCYEA', CYEACtrl.deleteCYEA);
 /*
 ==================================================================================
 >  Pone el servidor en escucha de peticiones,lo levanta en el puerto requerido.  <
 ==================================================================================
 */
-
 server.listen(port, function() {
     console.log('Servidor escuchando en el puerto: ' + port);
 });

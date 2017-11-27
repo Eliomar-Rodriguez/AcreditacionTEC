@@ -1,6 +1,7 @@
 /**
  * Created by Josue on 23/11/2017.
  */
+var a=1;
 angular.module("acreditacion")
     .factory("FactoryLogin",function ($http,$location) {
         let factory = {
@@ -41,21 +42,23 @@ angular.module("acreditacion")
         }
         $("#button_aceptar").click(function () {
             let lista = JSON.parse(localStorage.getItem("listaUsuarios"));
-            if($("#input_email").val() != "" && $("#input_password").val() != ""){
-                for(item in lista){
-                    if(lista[item].email == $("#input_email").val() && lista[item].password == $("#input_password").val()){
-                        swal("Inicio sesión correcto!!", "Bienvenido.", "success");
-                        window.location.href="templates/main_page.html";
-                    }
-                    else{
-                        swal("Error!!", "Este usuario no existe!.", "error");
+            if(a===1) {
+                a--;
+                if ($("#input_email").val() != "" && $("#input_password").val() != "") {
+                    for (item in lista) {
+                        if (lista[item].email == $("#input_email").val() && lista[item].password == $("#input_password").val()) {
+                            swal("Inicio sesión correcto!!", "Bienvenido.", "success");
+                            window.location.href = "templates/main_page.html";
+                        }
+                        else {
+                            swal("Error!!", "Este usuario no existe!.", "error");
+                        }
                     }
                 }
+                else {
+                    swal("Alerta!", "Ingrese sus credenciales primero!.", "error");
+                }
             }
-            else {
-                swal("Alerta!", "Ingrese sus credenciales primero!.", "error");
-            }
-
         });
     })
 ;

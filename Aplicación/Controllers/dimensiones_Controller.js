@@ -156,8 +156,8 @@ angular.module("acreditacion")
             posicion_final++;
             posicion_actual = posicion_final;debugger;
             let contador = 0;
-            while(posicion_final < $scope.listaDimensiones.length){
-                if(contador==4){
+            while(posicion_actual < $scope.listaDimensiones.length){
+                if(contador_registros === 4){
                     break;
                 }
                 contador++;

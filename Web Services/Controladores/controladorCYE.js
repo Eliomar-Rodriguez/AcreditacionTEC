@@ -24,7 +24,7 @@ exports.selectCYE = function(rRequest, rResponse){
 };
 
 exports.deleteCYE = function(rRequest, rResponse){
-    logicaCYE.eliminarCYE(rRequest.query, function(data){
+    logicaCYE.eliminarCYE(rRequest.body, function(data){
         rResponse.send(data);
     });
 };
