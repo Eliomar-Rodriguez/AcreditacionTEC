@@ -73,7 +73,6 @@ angular.module("acreditacion")
         $scope.input_component_name = "";
         $scope.selected_dimension_option = "";
         $scope.lista_dimensiones_disponibles = [];
-
         $(document).ready(function () {
             FactoryComponentes.getAllData(function (result) {
                $scope.lista_componentes = result;
@@ -83,18 +82,15 @@ angular.module("acreditacion")
                 $scope.lista_dimensiones_disponibles =result;
             })
         });
-
         $scope.deleteData= function (componente_ID) {
             FactoryComponentes.deleteData({ID:componente_ID});
         };
-
         $scope.openModalEdit = function (item) {
             $("#modalEditDimension").modal("show");
             $scope.componente_edit.Componente = item.Componente;
             $scope.componente_edit.Dimension_Asociada = item.Dimension;
             $scope.componente_edit.ComponenteOriginal = item.Componente;
         };
-
         function get_component_id(componente) {debugger;
             for(item in $scope.lista_componentes){
                 if($scope.lista_componentes[item].Componente == componente){
@@ -116,7 +112,6 @@ angular.module("acreditacion")
                 $scope.lista_filtrada_componentes = result;
             });
         };
-
         function get_dimension_id(dimension) {
             for(item in $scope.lista_dimensiones_disponibles){
                 if($scope.lista_dimensiones_disponibles[item].Dimension = dimension){
@@ -158,5 +153,4 @@ angular.module("acreditacion")
             }
         }
     })
-
 ;
