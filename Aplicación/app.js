@@ -3,32 +3,27 @@
 angular.module("acreditacion",['ngRoute','LocalStorageModule'])
 
 .config(['$routeProvider',function($routeProvider){
-    $routeProvider.when('/logIn',{
-        controller:"login_Controller",
-        templateUrl: "index.html"
-    })
-     .when('/main',{
-        controller: "main_Controller",
-        templateUrl: "../templates/main_page.html"
+    $routeProvider.when('/',{
+        controller: "main_Controller"
     })
     .when('/dimensiones', {
         controller: "Dimensiones",
-        templateUrl: "../templates/dimensiones.html"
+        templateUrl: "templates/dimensiones.html"
     })
     .when('/CriteriosYEstandares',{
         controller: "CriteriosYEstandares",
-        templateUrl: "../templates/CYE.html"
+        templateUrl: "templates/CYE.html"
     })
     .when('/CYEAjustados',{
         controller: "CYE_Ajustados",
-        templateUrl:"../templates/CYE_Ajustados.html"
+        templateUrl:"templates/CYE_Ajustados.html"
     })
     .when('/permisos',{
 
     })
     .when('/componentes',{
         controller:"Componentes",
-        templateUrl: "../templates/componentes.html"
+        templateUrl: "templates/componentes.html"
     })
     .otherwise({
         redirectTo: '/'
