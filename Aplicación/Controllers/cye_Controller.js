@@ -8,7 +8,7 @@ angular.module('acreditacion')
             getAllData : function (callback) {
                 $http({
                     method:"GET",
-                    url: "http://172.24.42.4:8080/selectCYE"
+                    url: "http://172.24.42.143:8080/selectCYE"
                 }).then(function successCallback(response) {
                     callback(response.data);
                 }).catch(function errorCallback(response) {
@@ -18,7 +18,7 @@ angular.module('acreditacion')
             deleteData : function (objetoCYE) {
                 $http({
                     method : "POST",
-                    url: "http://172.24.42.4:8080/deleteCYE",
+                    url: "http://172.24.42.143:8080/deleteCYE",
                     data: objetoCYE
                 }).then(function successCallback(response) {
                     $.notify("Registro eliminado!","success");
@@ -29,7 +29,7 @@ angular.module('acreditacion')
             insertData : function (objetoCYE) {
                 $http({
                     method : "POST",
-                    url : "http://172.24.42.4:8080/insertCYE",
+                    url : "http://172.24.42.143:8080/insertCYE",
                     data :  objetoCYE
                 }).then(function successCallback(response) {
                     swal("Agregado!", "Registro creado.", "success");
@@ -40,7 +40,7 @@ angular.module('acreditacion')
             editData : function (objetoCYE) {
                 $http({
                     method : "POST",
-                    url : "http://172.24.42.4:8080/editCYE",
+                    url : "http://172.24.42.143:8080/editCYE",
                     data : objetoCYE
                 }).then(function successCallback(response) {
                     $.notify("Dimensión editada!","success");
@@ -51,7 +51,7 @@ angular.module('acreditacion')
             getComponents : function (callback) {
                 $http({
                     method:"GET",
-                    url: "http://172.24.42.4:8080/selectComponentes"
+                    url: "http://172.24.42.143:8080/selectComponentes"
                 }).then(function successCallback(response) {
                     callback(response.data);
                 }).catch(function errorCallback(response) {

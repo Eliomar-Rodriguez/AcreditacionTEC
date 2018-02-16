@@ -7,7 +7,7 @@ angular.module("acreditacion")
             getAllData : function (callback) {
                 $http({
                     method:"GET",
-                    url: "http://172.24.42.4:8080/selectCYEA"
+                    url: "http://172.24.42.80:8080/selectCYEA"
                 }).then(function successCallback(response) {
                     callback(response.data);
                 }).catch(function errorCallback(response) {
@@ -17,7 +17,7 @@ angular.module("acreditacion")
             deleteData : function (objetoCYEA) {
                 $http({
                     method : "POST",
-                    url: "http://172.24.42.4:8080/deleteCYEA",
+                    url: "http://172.24.42.80:8080/deleteCYEA",
                     data: objetoCYEA
                 }).then(function successCallback(response) {
                     $.notify("Registro eliminado!","success");
@@ -28,7 +28,7 @@ angular.module("acreditacion")
             insertData : function (objetoCYEA) {
                 $http({
                     method : "POST",
-                    url : "http://172.24.42.4:8080/insertCYEA",
+                    url : "http://172.24.42.80:8080/insertCYEA",
                     data :  objetoCYEA
                 }).then(function successCallback(response) {
                     swal("Agregado!", "Registro creado.", "success");
@@ -39,7 +39,7 @@ angular.module("acreditacion")
             editData : function (objetoCYEA) {
                 $http({
                     method : "POST",
-                    url : "http://172.24.42.4:8080/editCYE",
+                    url : "http://172.24.42.80:8080/editCYE",
                     data : objetoCYEA
                 }).then(function successCallback(response) {
                     $.notify("Dimensión editada!","success");
@@ -50,7 +50,7 @@ angular.module("acreditacion")
             getCYE : function (callback) {
                 $http({
                     method:"GET",
-                    url: "http://172.24.42.4:8080/selectCYE"
+                    url: "http://172.24.42.80:8080/selectCYE"
                 }).then(function successCallback(response) {
                     callback(response.data);
                 }).catch(function errorCallback(response) {
@@ -60,7 +60,7 @@ angular.module("acreditacion")
             getResponsables: function (callback) {
                 $http({
                     method:"GET",
-                    url: "http://172.24.42.4:8080/selectUsuarios"
+                    url: "http://172.24.42.80:8080/selectUsuarios"
                 }).then(function successCallback(response) {
                     callback(response.data);
                 }).catch(function errorCallback(response) {
@@ -79,6 +79,9 @@ angular.module("acreditacion")
         $scope.selected_responsable = "";
         $scope.date_fecha_limite = "";
         $scope.lista_usuarios = [];
+        $scope.cyea_edit = {
+            
+        };
 
         $(document).ready(function () {
             FactoryCYE_Ajustados.getAllData(function (result) {
@@ -92,6 +95,21 @@ angular.module("acreditacion")
                 $scope.lista_usuarios = result;
             });
         });
+
+        function search_criterio(criterio) {
+            for(item in $scope.lista_cye){
+                if($scope.lista_cye[item].Criterio == criterio){
+                    return $scope.lista_cye[item].ID;
+                }
+            }
+        }
+        function search_usuario(nombre_usuario) {
+            for(item in $scope.lista_usuarios){
+                if($scope.lista_usuarios[item].NombreCompleto == nombre_usuario){
+                    return $scope.lista_usuarios[item].ID;
+                }
+            }
+        }
 
         $scope.insertData = function () {
             if($scope.selected_cye_option != "" && $scope.input_cye_ajustado != "" && $scope.selected_responsable != "" && $scope.date_fecha_limite != ""){
@@ -110,8 +128,8 @@ angular.module("acreditacion")
                     function(isConfirm) {
                         FactoryCYE_Ajustados.insertData(
                             {
-                                ID_CYE :  $scope.selected_cye_option,
-                                ID_Responsable : $scope.selected_responsable,
+                                ID_CYE : search_criterio($scope.selected_cye_option),
+                                ID_Responsable : search_usuario($scope.selected_responsable),
                                 CriterioAjustado : $scope.input_cye_ajustado,
                                 Fecha :$scope.date_fecha_limite
                             }
@@ -131,6 +149,7 @@ angular.module("acreditacion")
         };
 
         $scope.openModalEdit = function (ID) {
+            $("#modalEditCYEA").modal("show");
 
         };
         $scope.editData = function () {
@@ -138,7 +157,6 @@ angular.module("acreditacion")
         };
 
         $scope.deleteData = function (ID) {
-            alert(ID);
             FactoryCYE_Ajustados.deleteData(
                 {
                     ID: ID

@@ -27,7 +27,8 @@ angular.module("acreditacion",['ngRoute','LocalStorageModule'])
 
     })
     .when('/componentes',{
-
+        controller:"Componentes",
+        templateUrl: "../templates/componentes.html"
     })
     .otherwise({
         redirectTo: '/'

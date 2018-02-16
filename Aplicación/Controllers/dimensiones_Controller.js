@@ -7,7 +7,7 @@ angular.module("acreditacion")
             getAllData : function (callback) {
                 $http({
                     method:"GET",
-                    url: "http://172.24.42.4:8080/selectDimensiones"
+                    url: "http://172.24.42.143:8080/selectDimensiones"
                 }).then(function successCallback(response) {
                     callback(response.data);
                 }).catch(function errorCallback(response) {
@@ -17,7 +17,7 @@ angular.module("acreditacion")
             deleteData : function (objetoDimension) {
                 $http({
                     method : "POST",
-                    url: "http://172.24.42.4:8080/deleteDimension",
+                    url: "http://172.24.42.143:8080/deleteDimension",
                     data: objetoDimension
                 }).then(function successCallback(response) {
                     $.notify("Registro eliminado!","success");
@@ -28,7 +28,7 @@ angular.module("acreditacion")
             insertData : function (objetoDimension) {
                 $http({
                     method : "POST",
-                    url : "http://172.24.42.4:8080/insertDimension",
+                    url : "http://172.24.42.143:8080/insertDimension",
                     data :  objetoDimension
                 }).then(function successCallback(response) {
                     swal("Agregado!", "Registro creado.", "success");
@@ -39,7 +39,7 @@ angular.module("acreditacion")
             editData : function (objetoDimension) {
                 $http({
                     method : "POST",
-                    url : "http://172.24.42.4:8080/editDimension",
+                    url : "http://172.24.42.143:8080/editDimension",
                     data : objetoDimension
                 }).then(function successCallback(response) {
                     $.notify("Dimensión editada!","success");
@@ -50,7 +50,7 @@ angular.module("acreditacion")
             linkDimensionComponent : function (objeto) {
                 $http({
                     method:"POST",
-                    url:"http://172.24.42.4:8080/linkComponentToDimension"
+                    url:"http://172.24.42.80:8080/linkComponentToDimension"
                 }).then(function successCallback(response) {
                     $.notify("Cambios realizados!","success");
                 }).catch(function errorCallback(response) {
