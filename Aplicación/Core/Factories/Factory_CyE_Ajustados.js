@@ -7,7 +7,7 @@ angular.module("acreditacion")
             getAllData : function (callback) {
                 $http({
                     method:"GET",
-                    url: "http://172.24.42.80:8080/selectCYEA"
+                    url: "http://172.24.42.143:8080/selectCYEA"
                 }).then(function successCallback(response) {
                     callback(response.data);
                 }).catch(function errorCallback(response) {
@@ -17,7 +17,7 @@ angular.module("acreditacion")
             deleteData : function (objetoCYEA) {
                 $http({
                     method : "POST",
-                    url: "http://172.24.42.80:8080/deleteCYEA",
+                    url: "http://172.24.42.143:8080/deleteCYEA",
                     data: objetoCYEA
                 }).then(function successCallback(response) {
                     $.notify("Registro eliminado!","success");
@@ -28,7 +28,7 @@ angular.module("acreditacion")
             insertData : function (objetoCYEA) {
                 $http({
                     method : "POST",
-                    url : "http://172.24.42.80:8080/insertCYEA",
+                    url : "http://172.24.42.143:8080/insertCYEA",
                     data :  objetoCYEA
                 }).then(function successCallback(response) {
                     swal("Agregado!", "Registro creado.", "success");
@@ -39,7 +39,7 @@ angular.module("acreditacion")
             editData : function (objetoCYEA) {
                 $http({
                     method : "POST",
-                    url : "http://172.24.42.80:8080/editCYE",
+                    url : "http://172.24.42.143:8080/editCYE",
                     data : objetoCYEA
                 }).then(function successCallback(response) {
                     $.notify("Dimensión editada!","success");
@@ -50,7 +50,7 @@ angular.module("acreditacion")
             getCYE : function (callback) {
                 $http({
                     method:"GET",
-                    url: "http://172.24.42.80:8080/selectCYE"
+                    url: "http://172.24.42.143:8080/selectCYE"
                 }).then(function successCallback(response) {
                     callback(response.data);
                 }).catch(function errorCallback(response) {
@@ -60,7 +60,7 @@ angular.module("acreditacion")
             getResponsables: function (callback) {
                 $http({
                     method:"GET",
-                    url: "http://172.24.42.80:8080/selectUsuarios"
+                    url: "http://172.24.42.143:8080/selectUsuarios"
                 }).then(function successCallback(response) {
                     callback(response.data);
                 }).catch(function errorCallback(response) {
