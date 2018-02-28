@@ -9,7 +9,6 @@ angular.module("acreditacion")
                     method:"GET",
                     url: "http://172.24.42.143:8080/selectComponentes"
                 }).then(function successCallback(response) {
-                    console.log(response.data);
                     callback(response.data);
                 }).catch(function errorCallback(response) {
                     callback(response.data);

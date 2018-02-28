@@ -45,7 +45,7 @@ angular.module('acreditacion')
             $scope.cye_edit.ID_Criterio = ID;
             $scope.cye_edit.Componente_Asociado = Componente;
             $scope.input_edit_cye = Criterio;
-            debugger;
+
         };
 
         $scope.editData = function () {

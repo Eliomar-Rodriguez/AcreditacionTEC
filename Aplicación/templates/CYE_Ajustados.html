@@ -1,4 +1,4 @@
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-init="onLoad()">
     <div class="card">
         <div class="header">
             <h4 class="card-title">Criterios y Estándares Ajustados</h4>
@@ -41,16 +41,16 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr role="row" class="odd" ng-repeat="item in lista_filtrada_cye_ajustados | limitTo : 2">
+                            <tr role="row" class="odd" ng-repeat="item in lista_cye_ajustados | limitTo : 5">
                                 <td>{{$index + 1}}</td>
                                 <td>{{item.Criterio}}</td>
                                 <td>{{item.CriterioAjustado}}</td>
-                                <td>{{item.Observaciones}}</td>
+                                <td>{{item.Observacion}}</td>
                                 <td>{{item.Valoracion}}</td>
                                 <td>{{item.Responsable}} - {{item.Correo}}</td>
                                 <td>{{item.FLOC}}</td>
                                 <td>
-                                    <a ng-click="openEditModal(item.ID)"  style="color: darkblue">EDITAR</a> |
+                                    <a ng-click="openModalEdit(item)"  style="color: darkblue">EDITAR</a> |
                                     <a  ng-click="deleteData(item.ID)" style="color: red;">ELIMINAR</a>
                                 </td>
                             </tr>
@@ -67,7 +67,7 @@
     </div>
 </div>
 
-<!--START MODAL ADD DIMENSION-->
+<!--START MODAL ADD CYE_A-->
 <div class="container-fluid">
     <div class="modal fade" id="modal_Add_Register" tabindex="-1" role="dialog" aria-labelledby="modal_Add_Register" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -80,32 +80,44 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <label for="select_cye_available">Criterios y Estándares</label>
-                                <select class="form-control" id="select_cye_available" ng-model="selected_cye_option">
-                                    <option ng-repeat="item in lista_cye">{{item.Criterio}}</option>
+                                <select class="form-control" id="select_cye_available"
+                                        ng-model="new_item.Criterio" ng-options="item.Criterio for item in lista_cye">
                                 </select>
                             </div>
                             <div class="col-sm-6 ">
                                 <label for="input_cye_ajustado">Criterio y Estándar Ajustado</label>
-                                <input type="text" class="form-control input-sm" id="input_cye_ajustado" ng-model="input_cye_ajustado">
+                                <input type="text" class="form-control input-sm" id="input_cye_ajustado" ng-model="new_item.CriterioAjustado">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
                                 <label for="select_available_responsables">Responsable</label>
-                                <select class="form-control" id="select_available_responsables" ng-model="selected_responsable">
-                                    <option ng-repeat="item in lista_usuarios">{{item.NombreCompleto}}</option>
+                                <select class="form-control" id="select_available_responsables"
+                                        ng-model="new_item.Responsable" ng-options="item.Responsable for item in lista_responsables">
                                 </select>
                             </div>
                             <div class="col-sm-6">
                                 <label for="date_fecha_limite">Fecha Limite</label>
-                                <input class="form-control" type="date" id="date_fecha_limite" ng-model="date_fecha_limite">
+                                <input class="form-control" type="date" id="date_fecha_limite" ng-model="new_item.FLOC">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="input_observaciones">Observación</label>
+                                <input type="text" class="form-control" ng-model="new_item.Observacion" id="input_observaciones">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="input_valoracion">Valoración</label>
+                                <select class="form-control" id="input_valoracion" ng-model="new_item.Valoracion"
+                                        ng-options="item.Valoracion for item in lista_valoraciones">
+                                </select>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary"  ng-click="insertData()" id="button_save_cye_ajustado">
+                    <button type="button" class="btn btn-primary"  ng-click="insertData(new_item)" id="button_save_cye_ajustado">
                         Crear Criterio
                     </button>
                 </div>
@@ -113,40 +125,83 @@
         </div>
     </div>
 </div>
-<!--END MODAL ADD DIMENSION-->
+<!--END MODAL ADD CYE_A-->
 
-<!--START MODAL EDIT CYE-->
+<!--START MODAL EDIT CYE_A-->
 <div class="container-fluid">
     <div class="modal fade" id="modalEditCYEA" tabindex="-1" role="dialog" aria-labelledby="modalAddDimension" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Editar Criterio y Estándar | {{cye_edit.Criterio}}</h5>
+                    <h5 class="modal-title">Editar | {{cye_selected_edit.Criterio}}</h5>
                 </div>
                 <div class="modal-body">
                     <div class="row clearfix">
-                        <div class="col-md-12">
+                        <div class="col-sm-4">
                             <div class="container-fluid">
-                                <label for="input_edit_cye">Ingrese el nuevo nombre del criterio y estándar</label>
-                                <input type="text" class="form-control" ng-model="input_edit_cye"
-                                       id="input_edit_cye" placeholder="Nombre Dimensión" value="{{cye_edit.Criterio}}">
+                                <label for="input_edit_cye">Criterios y Estándares</label>
+                                <select class="form-control" ng-model="cye_selected_edit.Criterio" id="input_edit_cye">
+                                    <option ng-repeat="item in lista_cye">{{item.Criterio}}</option>
+                                </select>
+                                <p>Criterio: <strong>{{cye_selected_edit.Criterio}}</strong></p>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <br>
-                            <div class="col-sm-6">
-                                <label for="select_edit_componente">Componentes Disponibles</label>
-                                <select class="form-control" id="select_edit_componente" ng-model="selected_edit_component">
-                                    <option ng-repeat="item in lista_componentes">{{item.Componente}}</option>
+                        <div class="col-sm-4">
+                            <div class="container-fluid">
+                                <label for="input_edit_cye_ajustado">Criterio y Estándar Ajustado</label>
+                                <input type="text" class="form-control" ng-model="cye_selected_edit.CriterioAjustado"
+                                       id="input_edit_cye_ajustado" placeholder="Criterio y Estándar Ajustado">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="container-fluid">
+                                <label for="input_edit_observaciones">Posibles observaciones</label>
+                                <input type="text" class="form-control" ng-model="cye_selected_edit.Observaciones"
+                                       id="input_edit_observaciones" placeholder="Observaciones">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row clearfix">
+                        <div class="col-sm-4">
+                            <div class="container-fluid">
+                                <label for="input_edit_valoracion">Valoraciones</label>
+                                <select class="form-control" ng-model="cye_selected_edit.Valoracion" id="input_edit_valoracion">
+                                    <option ng-repeat="item in lista_valoraciones">{{item.Valoracion}}</option>
                                 </select>
-                                <p>Componente Asociado: {{cye_edit.Componente_Asociado}}</p>
+                                <p>Valoración: <strong>{{cye_selected_edit.Valoracion}}</strong></p>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="container-fluid">
+                                <label for="input_edit_Responsable">Responsables</label>
+                                <select class="form-control" ng-model="cye_selected_edit.Responsable" id="input_edit_Responsable">
+                                    <option ng-repeat="item in lista_responsables">{{item.Responsable}}</option>
+                                </select>
+                                <p>Responsable: <strong>{{cye_selected_edit.Responsable}}</strong></p>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="container-fluid">
+                                <label for="input_edit_correo">Correo Responsable</label>
+                                <input type="text" class="form-control" ng-model="cye_selected_edit.Correo" id="input_edit_correo"
+                                placeholder="Correo">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row clearfix">
+                        <div class="col-sm-5">
+                            <div class="container-fluid">
+                                <label for="input_edit_fecha_limite">Fecha limite</label>
+                                <input type="date" class="form-control" ng-model="cye_selected_edit.FLOC" id="input_edit_fecha_limit">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary"  ng-click="editData()" id="button_edit_cye">
+                    <button type="button" class="btn btn-primary"  ng-click="editData(cye_selected_edit)" id="button_edit_cye">
                         Guardar Cambios
                     </button>
                 </div>
@@ -154,4 +209,4 @@
         </div>
     </div>
 </div>
-<!--END MODAL EDIT CYE-->
+<!--END MODAL EDIT CYE_A-->

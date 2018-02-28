@@ -40,12 +40,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                                <tr role="row" class="odd" ng-repeat="item in lista_filtrada_dimensiones | limitTo : 4">
+                                <tr role="row" class="odd" ng-repeat="item in lista_dimensiones | limitTo : 4">
                                     <td>{{$index + 1}}</td>
                                     <td>{{item.Dimension}}</td>
                                     <td>
-                                        <a data-toggle="modal" data-target="#modalEditDimension" ng-click="openModalEdit(item)" style="color: darkblue">EDITAR</a> |
-                                        <a  ng-click="deleteDimension(item.ID)" style="color: red;">ELIMINAR</a>
+                                        <a  ng-click="openEditModal(item)" style="color: darkblue">EDITAR</a> |
+                                        <a  ng-click="deleteData(item.ID)" style="color: red;">ELIMINAR</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -56,7 +56,7 @@
                 <!--FOOTER-->
                 <div class="row">
                     <div class="col-sm-5">
-                        <p>Mostrado: <strong>{{cantidad_registros_mostrados}}</strong></p>
+                        <p>Mostrado: <strong>{{}}</strong></p>
                     </div>
                     <div class="col-sm-7">
                         <button type="button" id="button_last_rows" ng-click="backData()" disabled class="btn btn-default">Anterior</button>
@@ -82,9 +82,9 @@
                     <div class="row clearfix">
                         <div class="col-md-12">
                             <div class="container-fluid">
-                                <label for="txtDimensionName">Ingrese el nombre de la dimensión</label>
-                                <input type="text" class="form-control" ng-model="input_dimension_name"
-                                       id="txtDimensionName" placeholder="Nombre Dimensión" >
+                                <label for="input_dimension">Nombre de la Dimensión</label>
+                                <input type="text" class="form-control" ng-model="new_item.Dimension"
+                                       id="input_dimension" placeholder="Nombre Dimensión" >
                             </div>
                         </div>
 
@@ -92,7 +92,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary"  ng-click="createDimension()" id="btnSaveDimension">
+                    <button type="button" class="btn btn-primary"  ng-click="insertData(new_item)" id="btnSaveDimension">
                         Agregar Dimensión
                     </button>
                 </div>
@@ -104,19 +104,19 @@
 
 <!--START MODAL EDIT DIMENSION-->
 <div class="container-fluid">
-    <div class="modal fade" id="modalEditDimension" tabindex="-1" role="dialog" aria-labelledby="modalAddDimension" aria-hidden="true">
+    <div class="modal fade" id="modalEditDimension" tabindex="-1" role="dialog" aria-labelledby="modalEditDimension" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Editar Dimensión | {{dimension_actual.nombre_dimension}}</h5>
+                    <h5 class="modal-title">Editar Dimensión | {{dimension_selected_edit.Dimension}}</h5>
                 </div>
                 <div class="modal-body">
                     <div class="row clearfix">
                         <div class="col-md-12">
                             <div class="container-fluid">
-                                <label for="txtDimensionName">Ingrese el nombre de la dimensión</label>
-                                <input type="text" class="form-control" ng-model="dimension_actual.nombre_dimension"
-                                       id="txtEditDimensionName" placeholder="Nombre Dimensión" >
+                                <label for="input_dimension_edit">Ingrese el nombre de la dimensión</label>
+                                <input type="text" class="form-control" ng-model="dimension_selected_edit.Dimension"
+                                       id="input_dimension_edit" placeholder="Nombre Dimensión" >
                             </div>
                         </div>
 
@@ -124,7 +124,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary"  ng-click="editDimension()" id="btnEditDimension">
+                    <button type="button" class="btn btn-primary"  ng-click="editData(dimension_selected_edit)" id="btnEditDimension">
                         Guardar Cambios
                     </button>
                 </div>
